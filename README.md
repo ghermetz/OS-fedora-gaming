@@ -33,7 +33,9 @@
 | Steam + GameMode + MangoHud + Gamescope | La base gaming (config MangoHud fournie, toggle Maj droite + F12) |
 | LACT (COPR officiel) | Courbes ventilos, OC, limite de puissance de la 7600 XT |
 | ProtonUp-Qt (Flatpak) | Installer GE-Proton |
-| **Wine + Lutris + Heroic + Bottles** | Jeux Windows hors Steam : Epic/GOG/Amazon (Heroic), installateurs (Lutris), préfixes isolés (Bottles) |
+| **Wine (dernière stable WineHQ) + Lutris + Heroic + Bottles** | Jeux Windows hors Steam : Epic/GOG/Amazon (Heroic), installateurs (Lutris), préfixes isolés (Bottles) |
+| **Ruffle** | Émulateur Flash moderne — lance les jeux web Flash (Naruto Online) sans Windows |
+| **ZCode** | Agent de développement Z.ai (rpm officiel) |
 | **WinBoat** (rpm officiel) | Vraies applis Windows (Office…) intégrées au bureau — VM Docker/KVM, voir §6 |
 | **Waydroid + GAPPS + libndk** | Android en fenêtre, Play Store, applis ARM |
 | Vesktop (Flatpak) | Discord avec partage d'écran et son |
@@ -41,6 +43,16 @@
 | Jellyfin Media Player (Flatpak) | Client officiel |
 | VS Code (repo Microsoft) + Distrobox | Dev |
 | RetroArch | Rétrogaming (cœurs à télécharger dans l'app) |
+
+### Naruto Online (ton launcher Windows)
+
+Le dossier `Naruto Online` que tu as fourni est un **launcher .NET 4.5.2 embarquant Chromium 75 + Flash Player** (CEF de 2019) qui charge le jeu depuis `gamebox3.narutowebgame.com`. Sous Fedora, trois routes — de la plus élégante à la plus fidèle :
+
+1. **Ruffle** (installé par le script) : l'émulateur Flash moderne. Ouvre le jeu web directement, sans Windows du tout. À tester en premier.
+2. **Bottles** : recrée le launcher sous Wine — bouteille « Gaming » + `dotnet452` via winetricks, puis ajoute `Naruto Online.exe` comme raccourci.
+3. **WinBoat** : le launcher dans une vraie VM Windows — la route garantie si le contenu Flash du jeu résiste à Ruffle.
+
+Les routes 1 et 2 se valident dans la VM de test (Flash et .NET n'exigent pas de GPU).
 | LibreOffice + Thunderbird | Bureautique |
 | Docker CE (repo officiel) | Prérequis WinBoat + dev |
 

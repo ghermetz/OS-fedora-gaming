@@ -137,10 +137,19 @@ mkdir -p "$HOME/.config/MangoHud"
 cp "$SCRIPT_DIR/config/mangohud/MangoHud.conf" "$HOME/.config/MangoHud/MangoHud.conf"
 
 # ---------------------------------------------------------- 4. wine & launchers
-log "4/8 — Wine, Lutris, Heroic, Bottles"
-dnf_install wine winetricks lutris
+log "4/8 — Wine (dernière stable WineHQ), Lutris, Heroic, Bottles"
+if ! rpm -q winehq-stable >/dev/null 2>&1 && ! rpm -q wine >/dev/null 2>&1; then
+  if ! sudo dnf config-manager addrepo --from-repofile="https://dl.winehq.org/wine-builds/fedora/$(rpm -E %fedora)/winehq.repo"; then
+    sudo dnf config-manager --add-repo="https://dl.winehq.org/wine-builds/fedora/$(rpm -E %fedora)/winehq.repo" || true
+  fi
+  sudo dnf install -y winehq-stable || sudo dnf install -y wine
+fi
+if rpm -q winehq-stable >/dev/null 2>&1; then echo "    WineHQ stable : $(rpm -q --qf '%{VERSION}' winehq-stable)"; fi
+if rpm -q wine >/dev/null 2>&1; then echo "    Wine Fedora : $(rpm -q --qf '%{VERSION}' wine)"; fi
+dnf_install winetricks cabextract lutris
 flat_install com.heroicgameslauncher.hgl
 flat_install com.usebottles.bottles
+flat_install rs.ruffle.Ruffle   # Flash moderne (Naruto Online et jeux web flash)
 
 # ---------------------------------------------------------- 5. applications
 log "5/8 — Applications du quotidien"
@@ -217,6 +226,25 @@ if ! rpm -q code >/dev/null 2>&1; then
   printf '[vscode]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc\n' \
     | sudo tee /etc/yum.repos.d/vscode.repo >/dev/null
   sudo dnf install -y code
+fi
+
+# ZCode (agent de dev Z.ai) — rpm officiel, version résolue depuis la page d'install
+if ! rpm -q zcode >/dev/null 2>&1; then
+  zver="$(curl -sL --max-time 20 https://zcode.z.ai/en/docs/install \
+    | grep -oE 'ZCode-[0-9]+\.[0-9]+\.[0-9]+-linux-x64' | head -1 \
+    | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' || true)"
+  if [ -n "${zver:-}" ]; then
+    zurl="https://cdn-zcode.z.ai/zcode/electron/releases/${zver}/linux-x64/ZCode-${zver}-linux-x64.rpm"
+    if curl -fsIL --max-time 15 "$zurl" >/dev/null 2>&1; then
+      curl -sL -o "$SRC_DIR/zcode-${zver}.rpm" "$zurl" \
+        && sudo dnf install -y "$SRC_DIR/zcode-${zver}.rpm" \
+        || warn "Installation du rpm ZCode échouée — vois https://zcode.z.ai/en/docs/install"
+    else
+      warn "rpm ZCode v${zver} introuvable sur le CDN — vois https://zcode.z.ai/en/docs/install"
+    fi
+  else
+    warn "Version ZCode introuvable — installe-le depuis https://zcode.z.ai/en/docs/install"
+  fi
 fi
 
 if [ "$WITH_EXTRAS" = "1" ]; then
