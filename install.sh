@@ -261,7 +261,8 @@ else
   dnf_install freerdp
   if ! rpm -q docker-ce >/dev/null 2>&1; then
     dnf_install dnf-plugins-core
-    if ! sudo dnf config-manager add --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo; then
+    # dnf5 (F41+) : verbe « addrepo » — repli sur l'ancienne syntaxe dnf4
+    if ! sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo 2>/dev/null; then
       sudo dnf config-manager --add-repo=https://download.docker.com/linux/fedora/docker-ce.repo
     fi
     sudo dnf install -y docker-ce docker-ce-cli containerd docker-buildx-plugin docker-compose-plugin
