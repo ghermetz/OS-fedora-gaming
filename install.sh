@@ -139,16 +139,13 @@ mkdir -p "$HOME/.config/MangoHud"
 cp "$SCRIPT_DIR/config/mangohud/MangoHud.conf" "$HOME/.config/MangoHud/MangoHud.conf"
 
 # ---------------------------------------------------------- 4. wine & launchers
-log "4/8 — Wine (dernière stable WineHQ), Lutris, Heroic, Bottles"
-if ! rpm -q winehq-stable >/dev/null 2>&1 && ! rpm -q wine >/dev/null 2>&1; then
-  if ! sudo dnf config-manager addrepo --from-repofile="https://dl.winehq.org/wine-builds/fedora/$(rpm -E %fedora)/winehq.repo"; then
-    sudo dnf config-manager --add-repo="https://dl.winehq.org/wine-builds/fedora/$(rpm -E %fedora)/winehq.repo" || true
-  fi
-  sudo dnf install -y winehq-stable || sudo dnf install -y wine
+log "4/8 — Wine 11 (dépôts Fedora), Lutris, Heroic, Bottles"
+# Fedora 44+ livre Wine 11.0 directement — inutile de passer par le dépôt
+# WineHQ, dont les paquets entrent en conflit avec winetricks (wine-common).
+dnf_install wine winetricks cabextract lutris
+if rpm -q wine >/dev/null 2>&1; then
+  echo "    Wine : $(rpm -q --qf '%{NAME} %{VERSION}' wine)"
 fi
-if rpm -q winehq-stable >/dev/null 2>&1; then echo "    WineHQ stable : $(rpm -q --qf '%{VERSION}' winehq-stable)"; fi
-if rpm -q wine >/dev/null 2>&1; then echo "    Wine Fedora : $(rpm -q --qf '%{VERSION}' wine)"; fi
-dnf_install winetricks cabextract lutris
 flat_install com.heroicgameslauncher.hgl
 flat_install com.usebottles.bottles
 flat_install rs.ruffle.Ruffle   # Flash moderne (Naruto Online et jeux web flash)
