@@ -48,6 +48,10 @@ kset kdeglobals UseCustomAccentColor true General
 kset kdeglobals SingleClick true KDE                 # ouvrir d'un seul clic (comme Windows)
 kset kdeglobals AnimationDurationFactor 0.5 KDE      # animations raccourcies = "smooth"
 
+# Interface en français (applis KDE + formats régionaux)
+kset plasma-localerc LANG fr_FR.UTF-8 Formats
+kset plasma-localerc LANGUAGE fr Translations
+
 log "KDE — gaming"
 kset kwinrc AllowTearing true Compositing            # tearing autorisé (utile avec VRR)
 echo "    Barre des tâches : le panneau Plasma par défaut est déjà façon Windows.

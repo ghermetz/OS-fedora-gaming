@@ -22,6 +22,7 @@ echo "════════ fedora-gaming doctor ════════"
 echo "— Dépôts / Drivers / Vulkan"
 check_rpm rpmfusion-free-release
 check_rpm rpmfusion-nonfree-release
+check_rpm langpacks-fr
 check_rpm mesa-va-drivers
 check_rpm mesa-vulkan-drivers
 if command -v vulkaninfo >/dev/null 2>&1; then

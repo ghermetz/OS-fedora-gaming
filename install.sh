@@ -117,6 +117,9 @@ sudo dnf group install -y multimedia 2>/dev/null || sudo dnf group install -y "M
   warn "Groupe multimédia non installé (non bloquant : ffmpeg est là)."
 
 dnf_install flatpak git curl wget unzip tar cabextract
+# Francisation : langpacks applicatifs (Firefox/Thunderbird embarquent déjà
+# toutes les langues ; LibreOffice a un paquet dédié)
+dnf_install langpacks-fr hunspell-fr man-pages-fr libreoffice-langpack-fr
 sudo flatpak remote-add --system --if-not-exists flathub \
   https://flathub.org/repo/flathub.flatpakrepo
 sudo systemctl enable --now fstrim.timer
