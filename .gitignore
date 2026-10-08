@@ -1,0 +1,14 @@
+# Données VM et ISO — hors dépôt (générées par vm-test/test-vm.sh)
+vm-test/iso/
+vm-test/vm/
+*.iso
+*.vdi
+*.vbox
+*.vbox-prev
+vm-password.txt
+askpass.sh
+
+# Divers
+*.log
+__pycache__/
+venv/
