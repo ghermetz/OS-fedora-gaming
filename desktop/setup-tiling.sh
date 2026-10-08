@@ -17,7 +17,7 @@ warn() { printf '\033[1;33m[!] %s\033[0m\n' "$*"; }
 log "Installation des composants (Sway, Niri, waybar, outils)…"
 sudo dnf install -y niri sway waybar wofi mako grim slurp \
   xdg-desktop-portal-gtk xdg-desktop-portal-wlr \
-  polkit-kde-agent qt6-qtwayland qt5-qtwayland otf-font-awesome
+  polkit-kde qt6-qtwayland qt5-qtwayland fontawesome-6-free-fonts
 
 log "Déploiement des configurations…"
 mkdir -p "$HOME/.config/sway" "$HOME/.config/niri" "$HOME/.config/waybar" \

@@ -23,42 +23,70 @@ PORTAL="https://gamebox3.narutowebgame.com"
 
 log()  { printf '\n\033[1;36m==> %s\033[0m\n' "$*"; }
 warn() { printf '\033[1;33m[!] %s\033[0m\n' "$*"; }
+flat_have() { flatpak info "$1" >/dev/null 2>&1; }
+flat_get()  { sudo flatpak install --system --or-update -y flathub "$1"; }
+bottles_cli() { flatpak run --command=bottles-cli "$FLAT_BOTTLES" "$@"; }
 
-bottles_cli() {
-  flatpak run --command=bottles-cli "$FLAT_BOTTLES" "$@"
+bottle_dir() {
+  echo "$HOME/.var/app/$FLAT_BOTTLES/data/bottles/bottles/$BOTTLE"
+}
+
+find_runner() {
+  local d="$HOME/.var/app/$FLAT_BOTTLES/data/bottles/runners" r
+  for pattern in soda-* caffe-* kronk-*; do
+    for r in "$d"/$pattern; do
+      if [ -x "$r/bin/wine" ]; then echo "$r/bin/wine"; return 0; fi
+    done
+  done
+  return 1
 }
 
 do_ruffle() {
   log "Route 1 — Naruto Online via Ruffle (Flash émulé, natif Linux)"
-  if ! flatpak info "$FLAT_RUFFLE" >/dev/null 2>&1; then
-    sudo flatpak install --system --or-update -y flathub "$FLAT_RUFFLE"
-  fi
-  echo "    Ruffle s'ouvre sur le portail du jeu : $PORTAL"
-  echo "    Connecte-toi ; si un contenu reste vide, essaie la Route 2."
-  flatpak run "$FLAT_RUFFLE" "$PORTAL"
+  if ! flat_have "$FLAT_RUFFLE"; then flat_get "$FLAT_RUFFLE"; fi
+  echo "    Note : le bureau Ruffle ne navigue pas sur le web. Pour le jeu en"
+  echo "    ligne, utilise l'extension Ruffle de Firefox :"
+  echo "      https://addons.mozilla.org/firefox/addon/ruffle_ruffle_provider/"
+  echo "    puis ouvre $PORTAL"
+  echo "    Ou appuie sur Entrée pour ouvrir Ruffle vide (fichiers .swf locaux)…"
+  read -r
+  flatpak run "$FLAT_RUFFLE"
 }
 
 do_setup() {
   local game_dir="${1:-}"
-  if [ -z "$game_dir" ] || [ ! -d "$game_dir" ]; then
+  if [ -z "$game_dir" ] || [ ! -f "$game_dir/Naruto Online.exe" ]; then
     echo "Usage : ./naruto-online.sh setup <chemin du dossier « Naruto Online »>" >&2
     exit 1
   fi
   log "Route 2 — bouteille Bottles dédiée (rendu logiciel, anti écran noir)"
-  if ! flatpak info "$FLAT_BOTTLES" >/dev/null 2>&1; then
-    sudo flatpak install --system --or-update -y flathub "$FLAT_BOTTLES"
-  fi
+  if ! flat_have "$FLAT_BOTTLES"; then flat_get "$FLAT_BOTTLES"; fi
+
   if ! bottles_cli list --bottles 2>/dev/null | grep -q "$BOTTLE"; then
-    bottles_cli new -b "$BOTTLE" -e application
+    bottles_cli new --bottle-name "$BOTTLE" --environment application
   fi
-  echo "    Installation de dotnet452 (framework .NET du launcher, ~5 min)…"
-  bottles_cli tools -b "$BOTTLE" --install dotnet452 || \
-    warn "dotnet452 a échoué — retente : bottles-cli tools -b \"$BOTTLE\" --install dotnet452"
+
+  if [ ! -f "$(bottle_dir)/drive_c/windows/system32/mscoree.dll" ]; then
+    local runner
+    if ! runner="$(find_runner)"; then
+      warn "Aucun runner Wine dans Bottles — ouvre l'app Bottles, installe un"
+      warn "runner (Soda/Caffe), puis relance : ./naruto-online.sh setup"
+      exit 1
+    fi
+    echo "    Installation de dotnet452 via winetricks (~10 min, Patientez)…"
+    if ! WINEPREFIX="$(bottle_dir)" WINE="$runner" winetricks -q dotnet452; then
+      warn "dotnet452 a échoué — relance : WINEPREFIX=\"$(bottle_dir)\" WINE=\"$runner\" winetricks -q dotnet452"
+      exit 1
+    fi
+  else
+    echo "    dotnet452 déjà présent dans la bouteille."
+  fi
+
   echo "    Ajout du launcher comme programme…"
-  bottles_cli add -b "$BOTTLE" --path "$game_dir/Naruto Online.exe" --name "Naruto Online"
+  bottles_cli add -b "$BOTTLE" -n "Naruto Online" -p "$game_dir/Naruto Online.exe"
   echo "Bouteille prête. Lance le jeu avec : ./naruto-online.sh run"
-  echo "Astuce : copie le dossier du jeu hors de tout dossier synchronisé"
-  echo "(ex. ~/Games/Naruto Online) pour éviter les verrous pendant le jeu."
+  echo "Astuce : garde le dossier du jeu hors de tout dossier synchronisé"
+  echo "(Nextcloud, etc.) pour éviter verrous et lenteurs pendant le jeu."
 }
 
 do_run() {
@@ -66,7 +94,7 @@ do_run() {
   flatpak run \
     --env=WINEDLLOVERRIDES="d3d11,dxgi=d" \
     --env=LIBGL_ALWAYS_SOFTWARE=1 \
-    --command=bottles-cli "$FLAT_BOTTLES" run -b "$BOTTLE" -a "Naruto Online"
+    --command=bottles-cli "$FLAT_BOTTLES" run -b "$BOTTLE" -p "Naruto Online"
 }
 
 case "${1:-}" in
