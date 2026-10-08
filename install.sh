@@ -30,6 +30,7 @@ SKIP_WAYDROID=0
 WITH_EXTRAS=0
 SKIP_WINBOAT=0
 SKIP_DESKTOP=0
+SKIP_TILING=0
 
 for arg in "$@"; do
   case "$arg" in
@@ -38,6 +39,7 @@ for arg in "$@"; do
     --extras)        WITH_EXTRAS=1 ;;
     --skip-winboat)  SKIP_WINBOAT=1 ;;
     --skip-desktop)  SKIP_DESKTOP=1 ;;
+    --skip-tiling)   SKIP_TILING=1 ;;
     *) echo "Option inconnue : $arg (voir l'en-tête du script)" >&2; exit 1 ;;
   esac
 done
@@ -295,6 +297,16 @@ if [ "$SKIP_DESKTOP" = "0" ]; then
   fi
 else
   log "Bureau : sauté (--skip-desktop)"
+fi
+
+# ---------------------------------------------------------- sessions tiling
+if [ "$SKIP_TILING" = "0" ]; then
+  log "Sessions tiling bonus — Sway (mode Windows) + Niri (tiling défilant)"
+  if ! bash "$SCRIPT_DIR/desktop/setup-tiling.sh"; then
+    warn "Setup tiling en échec — relance plus tard : bash desktop/setup-tiling.sh"
+  fi
+else
+  log "Sessions tiling : sautées (--skip-tiling)"
 fi
 
 cat <<'EOT'

@@ -25,7 +25,9 @@ PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 # les écritures du shell dans Documents). Le projet, lui, est seulement lu.
 VM_DIR="$HOME/VirtualBox VMs/fedora-gaming-test"
 ISO_DIR="$HOME/Downloads/fedora-gaming-iso"
-FEDORA_VER="44"
+# Version testée dans la VM — VBox 7.2 ne connaît pas F44 en unattended,
+# on valide donc sur F43/F42 (install.sh est version-agnostique).
+FEDORA_VER="${FEDORA_VER:-43}"
 VM_USER="guill"
 # Mot de passe de TEST uniquement : VM locale en NAT (jamais exposée au réseau).
 # Surchargeable : VM_PW="ton-mot-de-passe" ./test-vm.sh create
@@ -120,7 +122,7 @@ do_create() {
   "$VB" modifyvm "$VM_NAME" \
     --memory 8192 --cpus 4 --vram 128 \
     --firmware efi \
-    --graphics-controller vmsvga \
+    --graphicscontroller vmsvga \
     --audio-driver none \
     --nic1 nat \
     --nat-pf1 "ssh,tcp,,${SSH_PORT},,22" \
@@ -131,15 +133,22 @@ do_create() {
   "$VB" storageattach "$VM_NAME" --storagectl SATA --port 1 --device 0 --type dvddrive --medium "$iso"
 
   printf '%s' "$VM_PW" > "$VM_DIR/vm-password.txt"
+  # F44 trop récente pour la détection VBox 7.2 → on force le template kickstart générique
+  local vbox_dir="/c/Program Files/Oracle/VirtualBox"
+  local ks_tpl post_tpl
+  ks_tpl="$(cygpath -w "$vbox_dir/UnattendedTemplates/fedora_ks.cfg" 2>/dev/null || echo "$vbox_dir/UnattendedTemplates/fedora_ks.cfg")"
+  post_tpl="$(cygpath -w "$vbox_dir/UnattendedTemplates/redhat_postinstall.sh" 2>/dev/null || echo "$vbox_dir/UnattendedTemplates/redhat_postinstall.sh")"
   echo "Lancement de l'installation sans intervention (~15-25 min)…"
   "$VB" unattended install "$VM_NAME" \
     --iso="$iso" \
     --user="$VM_USER" \
     --full-user-name="Fedora Gaming Test" \
     --password-file="$VM_DIR/vm-password.txt" \
-    --hostname=fedora-test \
+    --hostname=fedora-test.local \
     --time-zone=Europe/Paris \
-    --locale=fr_FR.UTF-8 \
+    --locale=fr_FR \
+    --script-template="$ks_tpl" \
+    --post-install-template="$post_tpl" \
     --start-vm=headless
   echo "Install unattendue lancée (VM headless)."
   echo "Ensuite : ./test-vm.sh wait-ready   puis   ./test-vm.sh run"

@@ -57,6 +57,15 @@ Trois routes, dans l'ordre — le script `apps/naruto-online.sh` automatise les 
 3. **WinBoat** : le launcher dans une vraie VM Windows — la route garantie si les deux premières échouent.
 
 Les routes 1 et 2 se valident dans la VM de test (Flash et .NET n'exigent pas de GPU).
+
+### Sessions tiling bonus — Sway « mode Windows » + Niri
+
+Installeés par défaut (`desktop/setup-tiling.sh`, option `--skip-tiling` pour s'en passer), choisissables à l'écran de connexion sans gêner KDE :
+
+- **Sway « mode Windows »** : toutes les fenêtres **flottantes par défaut** + barre des tâches waybar en bas (icônes cliquables, systray, horloge) — l'usage le plus proche de Windows qu'un WM Wayland offre. Raccourcis : Super+D menu, Super+E fichiers, Super+G Steam, Impr. écran capture.
+- **Niri « tiling défilant »** : la nouvelle génération — fenêtres en bande horizontale défilante, ultra-léger, dans les dépôts Fedora. Barre waybar identique, aide-mémoire des raccourcis avec Super+Shift+S.
+
+Les deux sessions partagent la même config waybar (thème dark, accent rouge) et le clavier FR + souris sans accélération.
 | LibreOffice + Thunderbird | Bureautique |
 | Docker CE (repo officiel) | Prérequis WinBoat + dev |
 
@@ -71,6 +80,7 @@ bash install.sh --vanilla        # Waydroid sans Google Apps
 bash install.sh --skip-waydroid  # sans la partie Android
 bash install.sh --skip-winboat   # sans WinBoat
 bash install.sh --skip-desktop   # sans la personnalisation du bureau
+bash install.sh --skip-tiling    # sans les sessions Sway/Niri
 bash install.sh --extras         # + OBS, Kdenlive, GIMP, VLC, qBittorrent
 ```
 
@@ -148,7 +158,11 @@ fedora-gaming/
 │   ├── mangohud/MangoHud.conf
 │   └── netflix/netflix.svg
 ├── desktop/
-│   └── setup-desktop.sh       ← look KDE + réglages gaming
+│   ├── setup-desktop.sh       ← look + réglages gaming KDE
+│   ├── setup-tiling.sh        ← sessions Sway (mode Windows) + Niri
+│   └── tiling/                ← configs sway, niri, waybar
+├── apps/
+│   └── naruto-online.sh       ← Naruto Online : Ruffle / Bottles anti-écran-noir
 └── vm-test/
     └── test-vm.sh             ← banc d'essai VirtualBox
 ```

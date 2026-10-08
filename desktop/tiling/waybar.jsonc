@@ -1,0 +1,45 @@
+// os-gaming — barre des tâches waybar « façon Windows » (Sway + Niri)
+{
+    "layer": "top",
+    "position": "bottom",
+    "height": 38,
+    "modules-left": ["niri/workspaces", "sway/workspaces", "wlr/taskbar"],
+    "modules-center": ["clock"],
+    "modules-right": ["tray", "pulseaudio", "memory", "cpu", "network"],
+
+    "sway/workspaces": {
+        "disable-scroll": true
+    },
+    "niri/workspaces": {},
+    "wlr/taskbar": {
+        "format": "{icon}",
+        "icon-size": 22,
+        "tooltip-format": "{title}",
+        "on-click": "activate",
+        "on-click-middle": "close"
+    },
+    "clock": {
+        "format": "{:%H:%M}",
+        "tooltip-format": "{:%A %d %B %Y}"
+    },
+    "cpu": {
+        "format": "CPU {usage}%",
+        "max-length": 12
+    },
+    "memory": {
+        "format": "RAM {}%",
+        "max-length": 12
+    },
+    "network": {
+        "format": "{ifname}",
+        "tooltip-format": "{ipaddr}/{cidr}"
+    },
+    "pulseaudio": {
+        "format": "{volume}%",
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+    },
+    "tray": {
+        "icon-size": 16,
+        "spacing": 8
+    }
+}

@@ -1,0 +1,32 @@
+/* os-gaming — style waybar (dark, accent rouge) */
+* {
+    font-family: "Noto Sans", sans-serif;
+    font-size: 13px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: rgba(18, 18, 22, 0.88);
+    color: #e8e8ec;
+    border-top: 1px solid rgba(229, 9, 20, 0.35);
+}
+
+#taskbar button {
+    padding: 2px 8px;
+    margin: 4px 2px;
+    border-radius: 8px;
+    background: transparent;
+}
+
+#taskbar button.active {
+    background: rgba(229, 9, 20, 0.45);
+}
+
+#clock, #cpu, #memory, #network, #pulseaudio, #tray,
+#workspaces button {
+    padding: 0 10px;
+}
+
+#workspaces button.active {
+    color: #e50914;
+}
