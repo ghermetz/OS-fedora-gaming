@@ -56,7 +56,7 @@ for p in microsoft-edge-stable code distrobox retroarch libreoffice-core thunder
 done
 
 echo "— Applications (Flatpak)"
-for app in dev.vencord.Vesktop com.github.iwalton3.jellyfin-media-player \
+for app in dev.vencord.Vesktop org.jellyfin.JellyfinDesktop \
   com.usebottles.bottles com.heroicgameslauncher.hgl net.davidotek.pupgui2; do
   check_flat "$app"
 done

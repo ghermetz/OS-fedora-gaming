@@ -161,7 +161,7 @@ if ! rpm -q microsoft-edge-stable >/dev/null 2>&1; then
   sudo dnf install -y microsoft-edge-stable
 fi
 
-flat_install com.github.iwalton3.jellyfin-media-player
+flat_install org.jellyfin.JellyfinDesktop   # Jellyfin Media Player (id Flathub actuel)
 
 # Raccourci « Netflix » en mode application
 ICON_DIR="$HOME/.local/share/icons"
