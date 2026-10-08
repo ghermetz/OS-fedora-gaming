@@ -187,10 +187,9 @@ log "6/8 — Waydroid (Android)"
 if [ "$SKIP_WAYDROID" = "1" ]; then
   warn "Waydroid sauté (--skip-waydroid)"
 else
-  if ! rpm -q waydroid >/dev/null 2>&1; then
-    curl -s https://repo.waydro.id | sudo bash
-    sudo dnf install -y waydroid
-  fi
+  # Waydroid est dans les dépôts officiels Fedora depuis F44 — pas de script externe
+  # (l'ancien repo.waydro.id ne gère plus que Debian/Ubuntu).
+  dnf_install waydroid
   sudo systemctl enable --now waydroid-container
 
   if [ ! -d /var/lib/waydroid ]; then
