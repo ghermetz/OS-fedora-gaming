@@ -97,14 +97,18 @@ log "1/8 — Mise à jour et dépôts"
 sudo dnf upgrade -y --refresh
 
 if ! rpm -q rpmfusion-free-release >/dev/null 2>&1; then
-  sudo dnf install -y \
-    "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm"
+  sudo dnf install -y --nogpgcheck \
+    "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm"
 fi
 if ! rpm -q rpmfusion-nonfree-release >/dev/null 2>&1; then
-  sudo dnf install -y \
-    "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
+  sudo dnf install -y --nogpgcheck \
+    "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
 fi
 echo "    RPM Fusion activé."
+# Métadonnées d'apps (RPM Fusion visible dans Discover) + sous-dépôts tainted
+# (codecs et bibliothèques complémentaires) — méthode Linuxtricks/RPM Fusion.
+dnf_install rpmfusion-free-appstream-data rpmfusion-nonfree-appstream-data
+dnf_install rpmfusion-free-release-tainted rpmfusion-nonfree-release-tainted
 
 if ! rpm -q ffmpeg >/dev/null 2>&1; then
   sudo dnf swap -y ffmpeg-free ffmpeg --allowerasing
