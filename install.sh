@@ -127,7 +127,10 @@ sudo systemctl enable --now bluetooth 2>/dev/null || true
 
 # ---------------------------------------------------------- 2. drivers AMD
 log "2/8 — Drivers AMD / Vulkan (RX 7600 XT — inclus au noyau, on vérifie)"
-dnf_install mesa-va-drivers mesa-vulkan-drivers vulkan-tools libva-utils
+# F44 : les pilotes VA-API sont fusionnés dans mesa-dri-drivers (plus de mesa-va-drivers)
+if ! sudo dnf install -y mesa-dri-drivers mesa-vulkan-drivers vulkan-tools vulkan-mesa-layers libva-utils 2>/dev/null; then
+  warn "Certains paquets drivers introuvables — Fedora renomme parfois ; vérifie avec dnf search mesa"
+fi
 if have vulkaninfo; then
   echo "Périphérique Vulkan détecté :"
   vulkaninfo --summary 2>/dev/null | grep -E 'deviceName|driverName' | sed 's/^/   /' || true
