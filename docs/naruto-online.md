@@ -47,6 +47,12 @@ Le launcher est une application .NET (WinForms) en **32 bits**. Elle embarque **
 - ❌ **Bottles (Flatpak)** : son bac à sable complique l'usage de winetricks et `bottles-cli` est limité. Le Wine système suffit.
 - 🛟 **Solution de secours** : si un jour Wine ne suffit plus, utilise WinBoat, c'est-à-dire une vraie VM Windows ([naruto-online-winboat.md](naruto-online-winboat.md)).
 
-### À vérifier sur la vraie machine (RX 7600 XT)
+### Rendu GPU
 
-La VM n'a pas d'accélération 3D, donc Chromium y a tourné en rendu logiciel. Sur ta Radeon, il utilisera le GPU à travers Wine. Si tu obtiens un écran noir, signale-le : la piste à tester sera de forcer le rendu logiciel de Chromium, **pas** de désactiver `d3d11`/`dxgi`.
+Le jeu a été testé deux fois dans la VM :
+- **sans accélération 3D** : Chromium tourne en rendu logiciel ;
+- **avec l'accélération 3D de VirtualBox** (pilote SVGA3D, OpenGL 4.1) : Chromium tente d'abord Direct3D 11 via Wine, qui n'est pas disponible en OpenGL 4.1, puis **bascule tout seul** sur un autre mode de rendu.
+
+Dans les deux cas, la connexion, le jeu, le son et la souris fonctionnent, sans écran noir.
+
+Sur une vraie Radeon (OpenGL 4.6), Direct3D 11 devrait être disponible. C'est le seul chemin qui n'a pas pu être testé. En cas d'écran noir, la piste sera de forcer le rendu logiciel de Chromium, **pas** de désactiver `d3d11`/`dxgi`.

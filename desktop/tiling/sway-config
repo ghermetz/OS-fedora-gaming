@@ -1,66 +1,107 @@
 # ═══ fedora-gaming — Sway « mode Windows » ═══════════════════════════════
-# Toutes les fenêtres sont flottantes par défaut + barre des tâches waybar
-# en bas : l'usage le plus proche de Windows qu'un WM Wayland puisse offrir.
+# Toutes les fenêtres flottent (comme sous Windows), barre des tâches waybar
+# en bas avec bouton Démarrer, aide et extinction. Super+F1 = aide-mémoire.
 
 set $mod Mod4
 set $term konsole
+set $menu fuzzel
+set $wallpaper /usr/share/wallpapers/Next/contents/images/5120x2880.png
 
 font pango:Noto Sans 10
 
 # Clavier FR + souris sans accélération (précision en jeu)
 input type:keyboard {
     xkb_layout fr
+    xkb_numlock enabled
 }
 input type:pointer {
     accel_profile flat
 }
+input type:touchpad {
+    tap enabled
+    natural_scroll enabled
+}
 
-# ── Mode Windows : tout flottant ──────────────────────────────────────────
+# Fond d'écran + VRR (FreeSync) sur tous les écrans
+output * bg $wallpaper fill
+output * adaptive_sync on
+
+# ── Mode Windows : tout flottant, fenêtres centrées ───────────────────────
 for_window [app_id=".*"] floating enable
 for_window [class=".*"] floating enable
 for_window [title=".*"] floating enable
-default_border pixel 2
-default_floating_border pixel 2
+default_border normal 2
+default_floating_border normal 2
+titlebar_padding 6 4
 hide_edge_borders smart
-gaps inner 0
-gaps outer 0
+focus_on_window_activation focus
+# Super + glisser = déplacer, Super + clic droit glisser = redimensionner
+floating_modifier $mod normal
+
+# Couleurs : fenêtre active rouge (accent du projet)
+client.focused          #e50914 #1e1e24 #ffffff #e50914 #e50914
+client.unfocused        #2a2a32 #16161a #9a9aa6 #2a2a32 #2a2a32
+client.focused_inactive #2a2a32 #16161a #c0c0c8 #2a2a32 #2a2a32
 
 # ── Démarrage ─────────────────────────────────────────────────────────────
 exec waybar
 exec mako
+exec nm-applet --indicator
 exec /usr/lib/polkit-kde-authentication-agent-1
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+# Verrouillage après 10 min, écran éteint après 15 min (jamais pendant un jeu plein écran)
+exec swayidle -w \
+    timeout 600 'swaylock -f -c 111116' \
+    timeout 900 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+    before-sleep 'swaylock -f -c 111116'
+for_window [shell=".*"] inhibit_idle fullscreen
 
-# ── Raccourcis (Super = touche Windows) ───────────────────────────────────
-bindsym $mod+Return exec $term
-bindsym $mod+d exec wofi --show drun --insensitive
+# ── Raccourcis façon Windows (Super = touche Windows) ─────────────────────
+bindsym $mod+space exec $menu
+bindsym $mod+d exec $menu
 bindsym $mod+e exec dolphin
+bindsym $mod+Return exec $term
 bindsym $mod+g exec steam
+bindsym $mod+l exec swaylock -f -c 111116
+bindsym $mod+F1 exec ~/.config/fedora-gaming/aide-tiling.sh
+bindsym Control+Mod1+Delete exec wlogout -p layer-shell -b 5 -T 330 -B 330
+bindsym Control+Shift+Escape exec plasma-systemmonitor
+
+bindsym Mod1+F4 kill
 bindsym $mod+q kill
+bindsym Mod1+Tab focus next
+bindsym Mod1+Shift+Tab focus prev
+
+# Ancrage façon Windows (Snap) : gauche / droite = demi-écran, haut = plein
+bindsym $mod+Left  floating enable, resize set width 50ppt height 100ppt, move position 0 0
+bindsym $mod+Right floating enable, resize set width 50ppt height 100ppt, move position 50ppt 0
+bindsym $mod+Up    floating enable, resize set width 100ppt height 100ppt, move position 0 0
+bindsym $mod+Down  floating enable, resize set width 60ppt height 70ppt, move position center
 bindsym $mod+f fullscreen toggle
-bindsym $mod+Shift+f floating toggle
-bindsym $mod+Shift+c reload
-bindsym $mod+Shift+e exec swaymsg exit
 
-# Déplacement au clavier
-bindsym $mod+Left focus left
-bindsym $mod+Right focus right
-bindsym $mod+Up focus up
-bindsym $mod+Down focus down
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Right move right
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Down move down
+# « Réduire » : la fenêtre va dans la réserve ; Super+Maj+H la fait revenir
+bindsym $mod+h move scratchpad
+bindsym $mod+Shift+h scratchpad show
 
-# Captures d'écran (sélection à la souris)
-bindsym Print exec sh -c 'mkdir -p ~/Pictures/Screenshots && grim -g "$(slurp)" ~/Pictures/Screenshots/$(date +%s).png'
+# Bureaux virtuels (Super+1..4, Super+Maj+1..4 pour y envoyer la fenêtre)
+bindsym $mod+ampersand  workspace number 1
+bindsym $mod+eacute     workspace number 2
+bindsym $mod+quotedbl   workspace number 3
+bindsym $mod+apostrophe workspace number 4
+bindsym $mod+Shift+ampersand  move container to workspace number 1
+bindsym $mod+Shift+eacute     move container to workspace number 2
+bindsym $mod+Shift+quotedbl   move container to workspace number 3
+bindsym $mod+Shift+apostrophe move container to workspace number 4
 
-# Volume
+# Captures d'écran : Impr = zone, Maj+Impr = écran entier (copiées + enregistrées)
+bindsym Print exec sh -c 'f=~/Images/Captures/$(date +%F_%H-%M-%S).png; mkdir -p ~/Images/Captures; grim -g "$(slurp)" "$f" && wl-copy < "$f"'
+bindsym Shift+Print exec sh -c 'f=~/Images/Captures/$(date +%F_%H-%M-%S).png; mkdir -p ~/Images/Captures; grim "$f" && wl-copy < "$f"'
+
+# Touches multimédia
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 
-# ── Barre des tâches : waybar s'en occupe, swaybar désactivée ────────────
-bar {
-    mode invisible
-}
+bindsym $mod+Shift+c reload
+
+# Pas de bloc « bar » : waybar remplace swaybar (sinon deux barres)

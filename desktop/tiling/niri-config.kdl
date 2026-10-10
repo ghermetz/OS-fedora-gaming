@@ -1,0 +1,141 @@
+// ═══ fedora-gaming — Niri « tiling défilant » ═══════════════════════════
+// Les fenêtres s'alignent en colonnes sur une bande horizontale qui défile.
+// Mêmes repères que la session Sway : barre waybar avec bouton Démarrer,
+// aide (Super+F1 ou bouton ?) et extinction. Les applis X11 (Steam…)
+// passent par xwayland-satellite, lancé automatiquement par niri.
+// L'applet réseau vient du démarrage automatique du système (nm-applet).
+
+input {
+    keyboard {
+        xkb {
+            layout "fr"
+        }
+        numlock
+    }
+    mouse {
+        accel-profile "flat"      // pas d'accélération : précision en jeu
+    }
+    touchpad {
+        tap
+        natural-scroll
+    }
+    focus-follows-mouse max-scroll-amount="0%"
+}
+
+// Aide-mémoire affiché au premier démarrage de la session
+hotkey-overlay {
+    skip-at-startup false
+}
+
+prefer-no-csd
+
+spawn-at-startup "waybar"
+spawn-at-startup "mako"
+spawn-at-startup "swaybg" "-m" "fill" "-i" "/usr/share/wallpapers/Next/contents/images/5120x2880.png"
+spawn-at-startup "/usr/lib/polkit-kde-authentication-agent-1"
+spawn-at-startup "swayidle" "-w" "timeout" "600" "swaylock -f -c 111116" "timeout" "900" "niri msg action power-off-monitors" "before-sleep" "swaylock -f -c 111116"
+
+layout {
+    gaps 8
+    center-focused-column "on-overflow"
+    background-color "transparent"   // laisse voir le fond d'écran (placé en arrière-plan)
+    default-column-width { proportion 0.5; }
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+        proportion 1.0
+    }
+    focus-ring {
+        width 2
+        active-color "#e50914"
+        inactive-color "#3a3a46"
+    }
+    border { off; }
+}
+
+// Fond d'écran visible aussi derrière la vue d'ensemble (Super+Tab)
+layer-rule {
+    match namespace="^wallpaper$"
+    place-within-backdrop true
+}
+
+screenshot-path "~/Images/Captures/%Y-%m-%d_%H-%M-%S.png"
+
+window-rule {
+    geometry-corner-radius 8
+    clip-to-geometry true
+}
+// Les jeux et Steam s'ouvrent en grand
+window-rule {
+    match app-id=r#"^steam_app_"#
+    match app-id="steam"
+    open-maximized true
+}
+// Petites fenêtres utilitaires : flottantes, comme sous Windows
+window-rule {
+    match app-id="pavucontrol"
+    match app-id="nm-connection-editor"
+    match app-id="org.kde.kdialog"
+    open-floating true
+}
+
+binds {
+    // Lancer
+    Mod+Space hotkey-overlay-title="Démarrer : applications" { spawn "fuzzel"; }
+    Mod+D hotkey-overlay-title=null { spawn "fuzzel"; }
+    Mod+E hotkey-overlay-title="Explorateur de fichiers" { spawn "dolphin"; }
+    Mod+Return hotkey-overlay-title="Terminal" { spawn "konsole"; }
+    Mod+G hotkey-overlay-title="Steam" { spawn "steam"; }
+    Mod+L hotkey-overlay-title="Verrouiller l'écran" { spawn "swaylock" "-f" "-c" "111116"; }
+    Mod+F1 hotkey-overlay-title="Cette aide" { show-hotkey-overlay; }
+    Ctrl+Alt+Delete hotkey-overlay-title="Éteindre / redémarrer / déconnexion" { spawn "wlogout" "-p" "layer-shell" "-b" "5" "-T" "330" "-B" "330"; }
+    Ctrl+Shift+Escape hotkey-overlay-title="Gestionnaire des tâches" { spawn "plasma-systemmonitor"; }
+
+    // Fenêtres (raccourcis Windows)
+    Alt+F4 hotkey-overlay-title="Fermer la fenêtre" { close-window; }
+    Mod+Q { close-window; }
+    Alt+Tab hotkey-overlay-title="Fenêtre suivante" { focus-column-right-or-first; }
+    Alt+Shift+Tab { focus-column-left-or-last; }
+    Mod+Up hotkey-overlay-title="Agrandir / rétablir la fenêtre" { maximize-column; }
+    Mod+F hotkey-overlay-title="Plein écran" { fullscreen-window; }
+    Mod+R hotkey-overlay-title="Largeur : 1/3, 1/2, 2/3, plein" { switch-preset-column-width; }
+    Mod+V hotkey-overlay-title="Fenêtre flottante / en colonne" { toggle-window-floating; }
+    Mod+Shift+V hotkey-overlay-title=null { switch-focus-between-floating-and-tiling; }
+    Mod+Comma hotkey-overlay-title=null { consume-or-expel-window-left; }
+    Mod+Semicolon hotkey-overlay-title=null { consume-or-expel-window-right; }
+    Mod+Shift+E hotkey-overlay-title=null { quit; }
+    Mod+Tab hotkey-overlay-title="Vue d'ensemble des fenêtres" { toggle-overview; }
+
+    // Se déplacer / déplacer dans la bande
+    Mod+Left hotkey-overlay-title="Fenêtre de gauche" { focus-column-left; }
+    Mod+Right hotkey-overlay-title="Fenêtre de droite" { focus-column-right; }
+    Mod+Shift+Left hotkey-overlay-title="Déplacer la fenêtre à gauche" { move-column-left; }
+    Mod+Shift+Right hotkey-overlay-title="Déplacer la fenêtre à droite" { move-column-right; }
+    Mod+WheelScrollDown cooldown-ms=150 { focus-column-right; }
+    Mod+WheelScrollUp cooldown-ms=150 { focus-column-left; }
+
+    // Bureaux (Super+Bas/Haut ou Super+1..4 ; avec Maj pour y envoyer la fenêtre)
+    Mod+Down hotkey-overlay-title="Bureau suivant (en dessous)" { focus-workspace-down; }
+    Mod+Page_Down { focus-workspace-down; }
+    Mod+Page_Up hotkey-overlay-title="Bureau précédent (au-dessus)" { focus-workspace-up; }
+    Mod+Shift+Down hotkey-overlay-title="Envoyer la fenêtre au bureau suivant" { move-column-to-workspace-down; }
+    Mod+Shift+Up hotkey-overlay-title="Envoyer la fenêtre au bureau précédent" { move-column-to-workspace-up; }
+    Mod+ampersand { focus-workspace 1; }
+    Mod+eacute { focus-workspace 2; }
+    Mod+quotedbl { focus-workspace 3; }
+    Mod+apostrophe { focus-workspace 4; }
+    Mod+Shift+ampersand { move-column-to-workspace 1; }
+    Mod+Shift+eacute { move-column-to-workspace 2; }
+    Mod+Shift+quotedbl { move-column-to-workspace 3; }
+    Mod+Shift+apostrophe { move-column-to-workspace 4; }
+
+    // Captures : Impr = zone (interactif), Maj+Impr = écran entier
+    Print hotkey-overlay-title="Capture d'écran (zone)" { screenshot; }
+    Shift+Print { screenshot-screen; }
+
+    // Touches multimédia
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "pactl" "set-sink-volume" "@DEFAULT_SINK@" "+5%"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "pactl" "set-sink-volume" "@DEFAULT_SINK@" "-5%"; }
+    XF86AudioMute allow-when-locked=true { spawn "pactl" "set-sink-mute" "@DEFAULT_SINK@" "toggle"; }
+}

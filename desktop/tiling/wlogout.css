@@ -1,0 +1,21 @@
+/* fedora-gaming — menu d'extinction (bouton ⏻, Ctrl+Alt+Suppr) */
+* { background-image: none; box-shadow: none; }
+window { background-color: rgba(10, 10, 14, 0.85); }
+button {
+    margin: 8px;
+    border-radius: 14px;
+    border: 1px solid #2a2a32;
+    background-color: #1e1e24;
+    background-repeat: no-repeat;
+    background-position: center 40%;
+    background-size: 30%;
+    color: #e8e8ec;
+    font-family: "Noto Sans", sans-serif;
+    font-size: 18px;
+}
+button:focus, button:hover { background-color: #e50914; border-color: #ff5c63; }
+#lock     { background-image: image(url("/usr/share/wlogout/icons/lock.png")); }
+#logout   { background-image: image(url("/usr/share/wlogout/icons/logout.png")); }
+#suspend  { background-image: image(url("/usr/share/wlogout/icons/suspend.png")); }
+#reboot   { background-image: image(url("/usr/share/wlogout/icons/reboot.png")); }
+#shutdown { background-image: image(url("/usr/share/wlogout/icons/shutdown.png")); }

@@ -57,12 +57,16 @@ Détails, dépannage et fausses pistes écartées (Ruffle, désactiver d3d11/dxg
 
 ### Sessions tiling bonus — Sway « mode Windows » + Niri
 
-Installeés par défaut (`desktop/setup-tiling.sh`, option `--skip-tiling` pour s'en passer), choisissables à l'écran de connexion sans gêner KDE :
+Installées par défaut (`desktop/setup-tiling.sh`, option `--skip-tiling` pour s'en passer). On les choisit à l'écran de connexion (en bas à gauche, « Session de bureau ») sans gêner KDE. Elles sont légères : environ 0,9 Go utilisé en VM, contre 2 à 5 Go pour Plasma. Les deux ont été testées dans la VM.
 
-- **Sway « mode Windows »** : toutes les fenêtres **flottantes par défaut** + barre des tâches waybar en bas (icônes cliquables, systray, horloge) — l'usage le plus proche de Windows qu'un WM Wayland offre. Raccourcis : Super+D menu, Super+E fichiers, Super+G Steam, Impr. écran capture.
-- **Niri « tiling défilant »** : la nouvelle génération — fenêtres en bande horizontale défilante, ultra-léger, dans les dépôts Fedora. Barre waybar identique, aide-mémoire des raccourcis avec Super+Shift+S.
+Repères communs, pensés pour s'en servir sans rien apprendre :
+- **Barre des tâches** en bas : bouton **⊞ Démarrer** (menu d'applications avec recherche), fenêtres ouvertes cliquables, réseau, volume (un clic ouvre le mixeur), bouton **?** (aide-mémoire) et bouton **⏻** (verrouiller, déconnexion, veille, redémarrer, éteindre).
+- **Raccourcis Windows** : Super+Espace menu, Super+E fichiers, Alt+F4 fermer, Alt+Tab changer de fenêtre, Super+L verrouiller, Ctrl+Alt+Suppr menu d'extinction, Impr capture d'écran. **Super+F1** affiche l'aide.
 
-Les deux sessions partagent la même config waybar (thème dark, accent rouge) et le clavier FR + souris sans accélération.
+Ce qui distingue les deux sessions :
+- **Sway « mode Windows »** : les fenêtres flottent comme sous Windows. Super+← / → les ancre sur une moitié d'écran, Super+↑ agrandit, Super+H réduit (un clic dans la barre fait revenir la fenêtre), Super+glisser déplace.
+- **Niri « tiling défilant »** : les fenêtres s'alignent en colonnes sur une bande qui défile. Super+← / → pour naviguer, Super+R pour changer la largeur, **Super+Tab** pour la vue d'ensemble. L'aide s'affiche au premier démarrage, en français. Les applis X11 (Steam, Wine) fonctionnent via xwayland-satellite.
+
 | LibreOffice + Thunderbird | Bureautique |
 | Docker CE (repo officiel) | Prérequis WinBoat + dev |
 
@@ -156,7 +160,7 @@ fedora-gaming/
 │   └── netflix/netflix.svg
 ├── desktop/
 │   ├── setup-desktop.sh       ← look + réglages gaming KDE
-│   ├── setup-tiling.sh        ← sessions Sway (mode Windows) + Niri
+│   ├── setup-tiling.sh        ← sessions Sway (mode Windows) + Niri, prêtes à l'emploi
 │   └── tiling/                ← configs sway, niri, waybar
 ├── apps/
 │   └── naruto-online.sh       ← Naruto Online : launcher officiel sous Wine (validé VM)

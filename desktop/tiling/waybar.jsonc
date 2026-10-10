@@ -1,45 +1,53 @@
-// os-gaming — barre des tâches waybar « façon Windows » (Sway + Niri)
+// fedora-gaming — barre des tâches waybar « façon Windows » (Sway + Niri)
+// Démarrer (lanceur) · bureaux · fenêtres ouvertes | heure | systray · son · aide · éteindre
 {
     "layer": "top",
     "position": "bottom",
-    "height": 38,
-    "modules-left": ["niri/workspaces", "sway/workspaces", "wlr/taskbar"],
+    "height": 40,
+    "modules-left": ["custom/start", "niri/workspaces", "sway/workspaces", "wlr/taskbar"],
     "modules-center": ["clock"],
-    "modules-right": ["tray", "pulseaudio", "memory", "cpu", "network"],
+    "modules-right": ["tray", "pulseaudio", "custom/help", "custom/power"],
 
+    "custom/start": {
+        "format": "⊞  Démarrer",
+        "tooltip-format": "Applications (Super+Espace)",
+        "on-click": "fuzzel"
+    },
     "sway/workspaces": {
         "disable-scroll": true
     },
     "niri/workspaces": {},
     "wlr/taskbar": {
-        "format": "{icon}",
+        "format": "{icon} {title:.18}",
         "icon-size": 22,
         "tooltip-format": "{title}",
         "on-click": "activate",
         "on-click-middle": "close"
     },
     "clock": {
-        "format": "{:%H:%M}",
+        "format": "{:%H:%M\n%d/%m/%Y}",
+        "justify": "center",
         "tooltip-format": "{:%A %d %B %Y}"
     },
-    "cpu": {
-        "format": "CPU {usage}%",
-        "max-length": 12
-    },
-    "memory": {
-        "format": "RAM {}%",
-        "max-length": 12
-    },
-    "network": {
-        "format": "{ifname}",
-        "tooltip-format": "{ipaddr}/{cidr}"
-    },
     "pulseaudio": {
-        "format": "{volume}%",
-        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+        "format": "🔊 {volume}%",
+        "format-muted": "🔇 muet",
+        "tooltip-format": "Clic : mixeur · clic droit : couper le son",
+        "on-click": "pavucontrol",
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
     },
     "tray": {
-        "icon-size": 16,
+        "icon-size": 18,
         "spacing": 8
+    },
+    "custom/help": {
+        "format": "?",
+        "tooltip-format": "Aide : raccourcis clavier (Super+F1)",
+        "on-click": "~/.config/fedora-gaming/aide-tiling.sh"
+    },
+    "custom/power": {
+        "format": "⏻",
+        "tooltip-format": "Verrouiller, se déconnecter, redémarrer, éteindre",
+        "on-click": "wlogout -p layer-shell -b 5 -T 330 -B 330"
     }
 }

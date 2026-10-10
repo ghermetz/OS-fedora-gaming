@@ -1,0 +1,29 @@
+SESSION SWAY — MODE WINDOWS          (Super = touche Windows)
+
+  Démarrer / applications ...... Super+Espace  (ou bouton « ⊞ Démarrer »)
+  Explorateur de fichiers ...... Super+E
+  Terminal ..................... Super+Entrée
+  Steam ........................ Super+G
+  Verrouiller l'écran .......... Super+L
+  Éteindre / redémarrer ........ bouton ⏻  ou  Ctrl+Alt+Suppr
+  Gestionnaire des tâches ...... Ctrl+Maj+Échap
+  Cette aide ................... Super+F1  ou bouton « ? »
+
+FENÊTRES
+  Fermer ....................... Alt+F4  (ou Super+Q)
+  Passer d'une fenêtre à l'autre  Alt+Tab
+  Moitié gauche / droite ....... Super+← / Super+→
+  Agrandir ..................... Super+↑
+  Taille normale, centrée ...... Super+↓
+  Plein écran .................. Super+F
+  Réduire / faire revenir ...... Super+H / Super+Maj+H
+  Déplacer à la souris ......... Super + glisser
+  Redimensionner ............... Super + clic droit glisser (ou les bords)
+
+BUREAUX VIRTUELS
+  Aller au bureau 1 à 4 ........ Super+1 … Super+4
+  Y envoyer la fenêtre ......... Super+Maj+1 … 4
+
+CAPTURES D'ÉCRAN (dans Images/Captures + presse-papiers)
+  Zone ......................... Impr
+  Écran entier ................. Maj+Impr

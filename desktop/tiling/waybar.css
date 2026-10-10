@@ -1,32 +1,50 @@
-/* os-gaming — style waybar (dark, accent rouge) */
+/* fedora-gaming — style waybar (sombre, accent rouge) */
 * {
-    font-family: "Noto Sans", sans-serif;
+    font-family: "Noto Sans", "Font Awesome 6 Free", sans-serif;
     font-size: 13px;
     min-height: 0;
 }
 
 window#waybar {
-    background: rgba(18, 18, 22, 0.88);
+    background: rgba(18, 18, 22, 0.92);
     color: #e8e8ec;
     border-top: 1px solid rgba(229, 9, 20, 0.35);
 }
 
+#custom-start {
+    padding: 0 14px;
+    margin: 4px 6px 4px 4px;
+    border-radius: 8px;
+    background: #e50914;
+    color: #ffffff;
+    font-weight: bold;
+}
+#custom-start:hover { background: #ff2a35; }
+
 #taskbar button {
-    padding: 2px 8px;
+    padding: 2px 10px;
     margin: 4px 2px;
     border-radius: 8px;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.04);
+    color: #e8e8ec;
 }
+#taskbar button:hover  { background: rgba(255, 255, 255, 0.12); }
+#taskbar button.active { background: rgba(229, 9, 20, 0.45); }
 
-#taskbar button.active {
-    background: rgba(229, 9, 20, 0.45);
-}
-
-#clock, #cpu, #memory, #network, #pulseaudio, #tray,
 #workspaces button {
+    padding: 0 8px;
+    color: #9a9aa6;
+}
+#workspaces button.active,
+#workspaces button.focused { color: #e50914; }
+
+#clock, #pulseaudio, #tray, #custom-help, #custom-power {
     padding: 0 10px;
 }
-
-#workspaces button.active {
-    color: #e50914;
+#custom-help, #custom-power {
+    font-size: 16px;
+    font-weight: bold;
 }
+#custom-help:hover, #custom-power:hover,
+#pulseaudio:hover { background: rgba(255, 255, 255, 0.12); border-radius: 8px; }
+#custom-power { color: #ff5c63; }
