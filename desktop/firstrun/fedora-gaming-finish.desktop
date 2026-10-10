@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Terminer la configuration Fedora Gaming
+Comment=Codecs, Flatpaks, LACT, VS Code, Edge, WinBoat, Waydroid (install.sh)
+Exec=konsole --hold -e bash -c "cd /usr/share/fedora-gaming && ASSUME_YES=1 bash install.sh --skip-desktop --skip-tiling"
+Icon=system-software-install
+Categories=System;Settings;

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  fedora-gaming — iso/kiwi/fedora-gaming.xml
+  Profil KIWI « KDE-Desktop-Live-Gaming » : l'ISO officielle Fedora KDE
+  (KDE-Desktop-Live) + RPM Fusion + stack jeu + sessions Sway/Niri,
+  sans le superflu (même liste que desktop/debloat-plasma.sh).
+  Les réglages (thème Windows 11, Naruto, configs) sont posés par
+  iso/kiwi/config-gaming.sh à partir de /usr/share/fedora-gaming.
+-->
+<image>
+	<profiles>
+		<profile name="KDE-Desktop-Live-Gaming" description="Fedora Gaming — Plasma façon Windows 11 + Sway + Niri (Live)">
+			<requires profile="KDE-Desktop-Live"/>
+		</profile>
+	</profiles>
+
+	<repository type="rpm-md" alias="rpmfusion-free" sourcetype="metalink" profiles="KDE-Desktop-Live-Gaming">
+		<source path="https://mirrors.rpmfusion.org/metalink?repo=free-fedora-$releasever&amp;arch=$basearch">
+			<signing key="file:///usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-free-fedora-$releasever"/>
+		</source>
+	</repository>
+	<repository type="rpm-md" alias="rpmfusion-free-updates" sourcetype="metalink" profiles="KDE-Desktop-Live-Gaming">
+		<source path="https://mirrors.rpmfusion.org/metalink?repo=free-fedora-updates-released-$releasever&amp;arch=$basearch">
+			<signing key="file:///usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-free-fedora-$releasever"/>
+		</source>
+	</repository>
+	<repository type="rpm-md" alias="rpmfusion-nonfree" sourcetype="metalink" profiles="KDE-Desktop-Live-Gaming">
+		<source path="https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-$releasever&amp;arch=$basearch">
+			<signing key="file:///usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-nonfree-fedora-$releasever"/>
+		</source>
+	</repository>
+	<repository type="rpm-md" alias="rpmfusion-nonfree-updates" sourcetype="metalink" profiles="KDE-Desktop-Live-Gaming">
+		<source path="https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-updates-released-$releasever&amp;arch=$basearch">
+			<signing key="file:///usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-nonfree-fedora-$releasever"/>
+		</source>
+	</repository>
+
+	<packages type="image" patternType="plusRecommended" profiles="KDE-Desktop-Live-Gaming">
+		<!-- Dépôts RPM Fusion actifs sur le système installé -->
+		<package name="rpmfusion-free-release"/>
+		<package name="rpmfusion-nonfree-release"/>
+		<!-- Français -->
+		<package name="langpacks-fr"/>
+		<package name="hunspell-fr"/>
+		<package name="man-pages-fr"/>
+		<!-- Jeu -->
+		<package name="steam"/>
+		<package name="gamemode"/>
+		<package name="mangohud"/>
+		<package name="gamescope"/>
+		<package name="mesa-vulkan-drivers"/>
+		<package name="vulkan-tools"/>
+		<package name="libva-utils"/>
+		<!-- Wine (Naruto Online, jeux Windows) -->
+		<package name="wine"/>
+		<package name="winetricks"/>
+		<package name="lutris"/>
+		<package name="unzip"/>
+		<!-- Thème -->
+		<package name="papirus-icon-theme"/>
+		<!-- Sessions Sway / Niri prêtes à l'emploi (desktop/setup-tiling.sh) -->
+		<package name="sway"/>
+		<package name="niri"/>
+		<package name="waybar"/>
+		<package name="fuzzel"/>
+		<package name="mako"/>
+		<package name="wlogout"/>
+		<package name="swaybg"/>
+		<package name="swaylock"/>
+		<package name="swayidle"/>
+		<package name="grim"/>
+		<package name="slurp"/>
+		<package name="wl-clipboard"/>
+		<package name="xwayland-satellite"/>
+		<package name="network-manager-applet"/>
+		<package name="pavucontrol"/>
+		<package name="kdialog"/>
+		<package name="xdg-desktop-portal-wlr"/>
+		<package name="xdg-desktop-portal-gtk"/>
+		<package name="polkit-kde"/>
+		<package name="fontawesome-6-free-fonts"/>
+		<package name="google-noto-emoji-fonts"/>
+		<!-- Outils -->
+		<package name="git"/>
+		<package name="btop"/>
+		<!-- Superflu exclu (desktop/debloat-plasma.sh) -->
+		<ignore name="kmail"/>
+		<ignore name="kmail-account-wizard"/>
+		<ignore name="kontact"/>
+		<ignore name="korganizer"/>
+		<ignore name="kaddressbook"/>
+		<ignore name="akregator"/>
+		<ignore name="kdepim-runtime"/>
+		<ignore name="kdepim-addons"/>
+		<ignore name="akonadi-server"/>
+		<ignore name="akonadi-server-mysql"/>
+		<ignore name="akonadi-import-wizard"/>
+		<ignore name="pim-data-exporter"/>
+		<ignore name="pim-sieve-editor"/>
+		<!-- Gestionnaire de clés GPG : dépend d'Akonadi -->
+		<ignore name="kleopatra"/>
+		<ignore name="plasma-discover-notifier"/>
+		<ignore name="abrt"/>
+		<ignore name="abrt-desktop"/>
+		<ignore name="abrt-applet"/>
+		<ignore name="abrt-cli"/>
+		<ignore name="setroubleshoot"/>
+		<ignore name="xwaylandvideobridge"/>
+		<ignore name="kmahjongg"/>
+		<ignore name="kmines"/>
+		<ignore name="kpat"/>
+		<ignore name="kamoso"/>
+		<ignore name="neochat"/>
+		<ignore name="qrca"/>
+		<ignore name="krfb"/>
+	</packages>
+</image>

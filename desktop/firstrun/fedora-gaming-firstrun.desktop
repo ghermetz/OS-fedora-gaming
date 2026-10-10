@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Fedora Gaming — première connexion
+Exec=/usr/share/fedora-gaming/desktop/firstrun/fedora-gaming-firstrun.sh
+OnlyShowIn=KDE;
+NoDisplay=true
+X-KDE-autostart-phase=2

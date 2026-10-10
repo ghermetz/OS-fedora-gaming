@@ -15,6 +15,9 @@ TILING_DIR="$SCRIPT_DIR/tiling"
 log()  { printf '\n\033[1;36m==> %s\033[0m\n' "$*"; }
 warn() { printf '\033[1;33m[!] %s\033[0m\n' "$*"; }
 
+# FG_IMAGE_BUILD=1 : construction de l'ISO — paquets fournis par KIWI, et
+# HOME=/etc/skel pour que chaque nouveau compte reçoive les configurations.
+if [ "${FG_IMAGE_BUILD:-0}" != "1" ]; then
 log "Installation des composants (Sway, Niri, waybar, outils)…"
 sudo dnf install -y niri sway waybar fuzzel mako wlogout \
   swaybg swaylock swayidle grim slurp wl-clipboard \
@@ -22,6 +25,7 @@ sudo dnf install -y niri sway waybar fuzzel mako wlogout \
   xdg-desktop-portal-gtk xdg-desktop-portal-wlr \
   polkit-kde qt6-qtwayland qt5-qtwayland fontawesome-6-free-fonts \
   google-noto-emoji-fonts
+fi
 
 log "Déploiement des configurations…"
 mkdir -p "$HOME/.config/sway" "$HOME/.config/niri" "$HOME/.config/waybar" \

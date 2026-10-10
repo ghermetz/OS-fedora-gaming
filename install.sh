@@ -11,7 +11,8 @@
 #    • Waydroid (Android) + image GAPPS + traduction ARM libndk (AMD)
 #    • Dev & burô : VS Code, Distrobox, RetroArch, LibreOffice, Thunderbird
 #    • WinBoat : Docker CE + FreeRDP + rpm officiel
-#    • Bureau : look KDE + réglages gaming (desktop/setup-desktop.sh)
+#    • Bureau : Plasma façon Windows 11, allégé + Naruto Online préconfiguré
+#      (desktop/setup-desktop.sh)
 #
 #  Usage :
 #    bash install.sh                  # parcours complet
@@ -300,7 +301,7 @@ fi
 
 # ---------------------------------------------------------- bureau + récap
 if [ "$SKIP_DESKTOP" = "0" ]; then
-  log "Bureau — look KDE + réglages gaming"
+  log "Bureau — Plasma façon Windows 11, allégé + Naruto Online"
   if ! bash "$SCRIPT_DIR/desktop/setup-desktop.sh"; then
     warn "Setup bureau en échec — relance plus tard : bash desktop/setup-desktop.sh"
   fi

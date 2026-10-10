@@ -1,0 +1,13 @@
+{
+    "KPackageStructure": "Plasma/LookAndFeel",
+    "KPlugin": {
+        "Authors": [ { "Name": "fedora-gaming" } ],
+        "Category": "",
+        "Description": "Disposition façon Windows 11 : barre centrée, thème sombre, accent rouge",
+        "Id": "org.fedoragaming.desktop",
+        "License": "GPL-2.0+",
+        "Name": "Fedora Gaming (Windows 11)",
+        "Version": "1.0"
+    },
+    "X-Plasma-APIVersion": "2"
+}

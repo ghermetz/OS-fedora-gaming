@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Naruto Online
+Comment=Installe le launcher officiel au premier lancement, puis lance le jeu (Wine)
+Exec=/usr/share/fedora-gaming/apps/naruto-online.sh launch
+Icon=applications-games
+Categories=Game;
+Terminal=false
