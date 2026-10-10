@@ -94,7 +94,7 @@ Une fenêtre FreeRDP s'ouvre avec Windows 11.
 
 ### Allocation ressources
 ```
-CPU    : 4 cores (50% du Ryzen 7 3800X)
+CPU    : 4 cœurs (environ la moitié d'un processeur 8 cœurs)
 RAM    : 8 GB (25% des 32 GB)
 Disque : 60 GB (Windows + jeu)
 GPU    : Software (ou passthrough si configuré)

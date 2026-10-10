@@ -39,7 +39,20 @@ Un script (ou une ISO) transforme une Fedora KDE fraîchement installée en syst
 
 - Les joueurs qui quittent Windows et veulent un bureau familier.
 - Celles et ceux qui veulent une **Fedora standard** (pas une distribution dérivée) : mêmes dépôts et mêmes mises à jour que Fedora, et Secure Boot qui reste activé.
-- **Conçu et testé autour d'une carte AMD** (Radeon RX 7600 XT). Les cartes AMD et Intel fonctionnent avec les pilotes intégrés à Fedora. Pour une carte **NVIDIA**, il faut en plus installer le pilote propriétaire (`akmod-nvidia` depuis RPM Fusion), que ce projet ne gère pas.
+- **Carte graphique** : les cartes AMD et Intel fonctionnent avec les pilotes intégrés à Fedora. Pour une carte **NVIDIA**, il faut en plus installer le pilote propriétaire (`akmod-nvidia` depuis RPM Fusion), que ce projet ne gère pas.
+
+### Configuration requise
+
+| | Minimum | Recommandé |
+|---|---|---|
+| Processeur | 64 bits (x86_64), 4 cœurs | 6 cœurs ou plus |
+| Mémoire | 8 Go | 16 Go ou plus |
+| Disque | 60 Go (plus la place des jeux) | SSD, 200 Go ou plus |
+| Carte graphique | compatible Vulkan (AMD GCN ou plus récente, Intel Xe, NVIDIA avec pilote propriétaire) | AMD RDNA 2 ou plus récente |
+| Démarrage | UEFI (Secure Boot peut rester activé) | |
+| Réseau | connexion Internet pendant l'installation | |
+
+Pour WinBoat (applis Windows) : virtualisation (AMD-V/SVM ou Intel VT-x) activée dans le BIOS, 16 Go de mémoire conseillés et une licence Windows.
 
 **Pourquoi Fedora KDE ?** Une version tous les 6 mois, environ 13 mois de support, des mises à jour qu'on applique quand on veut, et un noyau et des pilotes graphiques (Mesa) récents, ce dont les cartes graphiques modernes ont besoin. KDE Plasma est une édition officielle de Fedora et le bureau Linux le plus facile à rapprocher de Windows.
 

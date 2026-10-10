@@ -1,8 +1,8 @@
-# Guide Tuning AMD — RX 7600 XT (RDNA3)
+# Guide de réglage AMD (Radeon RDNA)
 
 ## 🎯 Vue d'ensemble
 
-**GPU** : AMD Radeon RX 7600 XT 16 GB (Navi 33)  
+**Exemple utilisé dans ce guide** : une Radeon RDNA 3 (série RX 7000) ; les réglages s'appliquent aux cartes RDNA en général.  
 **Architecture** : RDNA3  
 **TDP** : 190W stock  
 **Drivers** : Mesa RADV (natif Linux)

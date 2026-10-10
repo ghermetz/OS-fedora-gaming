@@ -280,7 +280,7 @@ pw-metadata -n settings 0 clock.force-quantum 2048
 systemctl --user restart pipewire
 ```
 
-## 🏆 Jeux testés (RX 7600 XT)
+## 🏆 Jeux testés (Radeon RDNA 3)
 
 | Jeu | Launcher | Statut | Notes |
 |-----|----------|--------|-------|

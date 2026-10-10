@@ -60,7 +60,7 @@ Si Windows existe déjà :
    - Réutiliser `/dev/nvme0n1p1` comme `/boot/efi` (⚠️ NE PAS FORMATER)
    - Créer `/dev/nvme0n1p3` en **Btrfs**, point de montage `/`
    - **Pas de swap** (inutile avec 32 GB RAM)
-5. **Utilisateur** : ton nom (ex: guill)
+5. **Utilisateur** : votre nom d'utilisateur
 6. **Mot de passe** : choisis un mot de passe fort
 7. Installer → Redémarrer
 
@@ -203,7 +203,7 @@ sudo systemctl enable --now NetworkManager
 ## 📚 Guides complémentaires
 
 - **[GAMING.md](GAMING.md)** — Optimisations jeux (Steam, Proton, MangoHud)
-- **[AMD-TUNING.md](AMD-TUNING.md)** — Tuning RX 7600 XT (LACT, overclock)
+- **[AMD-TUNING.md](AMD-TUNING.md)** — Réglages des cartes AMD (LACT, overclocking)
 - **[naruto-online.md](naruto-online.md)** — Naruto Online (launcher officiel sous Wine)
 
 ## 🎯 Prochaines étapes
