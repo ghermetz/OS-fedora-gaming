@@ -34,7 +34,7 @@
 | LACT (COPR officiel) | Courbes ventilos, OC, limite de puissance de la 7600 XT |
 | ProtonUp-Qt (Flatpak) | Installer GE-Proton |
 | **Wine (dernière stable WineHQ) + Lutris + Heroic + Bottles** | Jeux Windows hors Steam : Epic/GOG/Amazon (Heroic), installateurs (Lutris), préfixes isolés (Bottles) |
-| **Ruffle** | Émulateur Flash moderne — lance les jeux web Flash (Naruto Online) sans Windows |
+| **Ruffle** | Émulateur Flash moderne — jeux web Flash simples (Naruto Online passe par Wine, voir plus bas) |
 | **ZCode** | Agent de développement Z.ai (rpm officiel) |
 | **WinBoat** (rpm officiel) | Vraies applis Windows (Office…) intégrées au bureau — VM Docker/KVM, voir §6 |
 | **Waydroid + GAPPS + libndk** | Android en fenêtre, Play Store, applis ARM |
@@ -46,17 +46,14 @@
 
 ### Naruto Online (ton launcher Windows)
 
-Le dossier `Naruto Online` que tu as fourni est un **launcher .NET 4.5.2 embarquant Chromium 75 + Flash Player** (CEF de 2019) qui charge le jeu depuis `gamebox3.narutowebgame.com`.
+Le launcher officiel (.NET + Chromium 75 + Flash embarqué) tourne **sous Wine, sans réglage de rendu**. C'est validé dans la VM de test : connexion OK, jeu chargé à 100 %, écran de jeu interactif.
 
-> ⚠️ **Le bug connu** : sous Wine, ce type de launcher s'ouvre mais reste **noir** — le processus GPU du Chromium embarqué plante sous Wine, donc rien ne se dessine. Ce n'est pas le jeu qui est cassé, c'est le rendu. Les remèdes sont intégrés au projet.
+```bash
+./apps/naruto-online.sh setup "/chemin/vers/Naruto Online"   # une fois, ~30 min (.NET 4.8)
+./apps/naruto-online.sh run                                  # ou menu KDE → « Naruto Online »
+```
 
-Trois routes, dans l'ordre — le script `apps/naruto-online.sh` automatise les deux premières :
-
-1. **Ruffle** (`./naruto-online.sh ruffle`) : l'émulateur Flash moderne, rendu **natif Linux** — aucun Wine, donc aucun écran noir possible. À tester en premier.
-2. **Bottles** (`./naruto-online.sh setup <dossier>` puis `run`) : bouteille dédiée + `dotnet452` + **rendu logiciel forcé** (`d3d11/dxgi` désactivés, `LIBGL_ALWAYS_SOFTWARE=1`) — l'anti-écran-noir du CEF.
-3. **WinBoat** : le launcher dans une vraie VM Windows — la route garantie si les deux premières échouent.
-
-Les routes 1 et 2 se valident dans la VM de test (Flash et .NET n'exigent pas de GPU).
+Détails, dépannage et fausses pistes écartées (Ruffle, désactiver d3d11/dxgi) : [docs/naruto-online.md](docs/naruto-online.md). Solution de secours : WinBoat ([docs/naruto-online-winboat.md](docs/naruto-online-winboat.md)).
 
 ### Sessions tiling bonus — Sway « mode Windows » + Niri
 
@@ -162,7 +159,7 @@ fedora-gaming/
 │   ├── setup-tiling.sh        ← sessions Sway (mode Windows) + Niri
 │   └── tiling/                ← configs sway, niri, waybar
 ├── apps/
-│   └── naruto-online.sh       ← Naruto Online : Ruffle / Bottles anti-écran-noir
+│   └── naruto-online.sh       ← Naruto Online : launcher officiel sous Wine (validé VM)
 └── vm-test/
     └── test-vm.sh             ← banc d'essai VirtualBox
 ```

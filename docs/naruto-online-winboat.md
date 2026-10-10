@@ -246,8 +246,7 @@ Le système fonctionne mais avec :
 
 ## 🔄 Alternatives
 
-- **Route 1** : [Ruffle](naruto-online-ruffle.md) (simple, moins fiable)
-- **Route 2** : [Bottles](naruto-online-bottles.md) (compromis)
+- **Route principale** : [launcher officiel sous Wine](naruto-online.md) (validée en VM)
 
 ## 📊 Verdict
 

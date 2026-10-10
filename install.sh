@@ -127,8 +127,10 @@ sudo systemctl enable --now bluetooth 2>/dev/null || true
 
 # ---------------------------------------------------------- 2. drivers AMD
 log "2/8 — Drivers AMD / Vulkan (RX 7600 XT — inclus au noyau, on vérifie)"
-# F44 : les pilotes VA-API sont fusionnés dans mesa-dri-drivers (plus de mesa-va-drivers)
-if ! sudo dnf install -y mesa-dri-drivers mesa-vulkan-drivers vulkan-tools vulkan-mesa-layers libva-utils 2>/dev/null; then
+# F44 : VA-API fusionné dans mesa-dri-drivers ; les layers Vulkan (device_select)
+# sont dans mesa-vulkan-drivers. --skip-unavailable : un renommage futur ne bloque
+# plus tout le bloc.
+if ! sudo dnf install -y --skip-unavailable mesa-dri-drivers mesa-vulkan-drivers vulkan-tools libva-utils 2>/dev/null; then
   warn "Certains paquets drivers introuvables — Fedora renomme parfois ; vérifie avec dnf search mesa"
 fi
 if have vulkaninfo; then
@@ -158,7 +160,7 @@ if rpm -q wine >/dev/null 2>&1; then
 fi
 flat_install com.heroicgameslauncher.hgl
 flat_install com.usebottles.bottles
-flat_install rs.ruffle.Ruffle   # Flash moderne (Naruto Online et jeux web flash)
+flat_install rs.ruffle.Ruffle   # Flash moderne (jeux web flash ; Naruto Online : apps/naruto-online.sh)
 
 # ---------------------------------------------------------- 5. applications
 log "5/8 — Applications du quotidien"

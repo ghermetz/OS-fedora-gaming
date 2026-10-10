@@ -204,7 +204,7 @@ sudo systemctl enable --now NetworkManager
 
 - **[GAMING.md](GAMING.md)** — Optimisations jeux (Steam, Proton, MangoHud)
 - **[AMD-TUNING.md](AMD-TUNING.md)** — Tuning RX 7600 XT (LACT, overclock)
-- **[naruto-online-*.md](naruto-online-bottles.md)** — Naruto Online (3 routes)
+- **[naruto-online.md](naruto-online.md)** — Naruto Online (launcher officiel sous Wine)
 
 ## 🎯 Prochaines étapes
 
