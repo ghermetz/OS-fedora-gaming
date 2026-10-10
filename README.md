@@ -171,7 +171,7 @@ fedora-gaming/
 - [ ] Profil d'écran multi-écrans (VRR principal) à valider sur ton vrai matériel
 - [ ] ISO personnalisée si tu veux réinstaller « ton OS » en une clé
 - [ ] OBS/Kdenlive si tu te mets au stream/montage (`--extras`)
-- [ ] **Repo public séparé `naruto-online-linux`** : publié **si** la configuration est validée dans la VM (structure déjà prête dans `Zcode/naruto-online-linux/` : script 3 routes + README, réutilisable par tous)
+- [x] **Repo public séparé [`naruto-online-linux`](https://github.com/ghermetz/naruto-online-linux)** : publié — script validé en VM, multi-distro
 
 ## 10. Sources
 
