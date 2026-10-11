@@ -21,7 +21,7 @@
 set -euo pipefail
 
 RELEASE=44
-PROFILE="KDE-Desktop-Live-Gaming"
+PROFILE="Gaming-KDE"
 ISO_NAME="Fedora-Gaming-${RELEASE}-x86_64.iso"
 ISO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(dirname "$ISO_DIR")"
@@ -76,6 +76,9 @@ sed -e 's|<locale>en_US</locale>|<locale>fr_FR</locale>|' \
     -e 's|\(\s*\)<include from="this://./teams/kde.xml"/>|&\n\1<include from="this://./components/fedora-gaming.xml"/>|' \
     Fedora.kiwi | $SUDO tee FedoraGaming.kiwi >/dev/null
 grep -q 'components/fedora-gaming.xml' FedoraGaming.kiwi || die "Inclusion du profil impossible (Fedora.kiwi a changé ?)"
+# Compression lz4hc au lieu de lzma : construction bien plus rapide et moins
+# gourmande en mémoire (ISO un peu plus grosse, démarrage live plus rapide)
+$SUDO sed -i 's/erofscompression="lzma,level=6"/erofscompression="lz4hc,12"/' components/liveinstall.xml
 # Nos réglages à la fin du config.sh officiel — AVANT son « exit 0 » final
 $SUDO sed -i '$ {/^exit 0$/d}' config.sh
 { cat "$ISO_DIR/kiwi/config-gaming.sh"; echo; echo "exit 0"; } | $SUDO tee -a config.sh >/dev/null

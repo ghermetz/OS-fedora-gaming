@@ -88,12 +88,12 @@ bash install.sh --extras         # + OBS, Kdenlive, GIMP, VLC, qBittorrent
 
 ### B. Avec l'ISO fedora-gaming
 
-> 🚧 **En cours de validation** : voir [l'état des tests](#9-état-des-tests-et-limites).
+> ✅ Construction et session live validées (ISO de 5,4 Go). L'installation sur disque depuis l'ISO reste à valider : voir [l'état des tests](#9-état-des-tests-et-limites).
 
 L'ISO est une Fedora KDE 44 Live officielle, à laquelle s'ajoutent le bureau Windows 11, les sessions Sway et Niri, Steam, Wine, Lutris et l'icône Naruto Online, en français avec clavier AZERTY. On la construit soi-même sur une Fedora (une machine virtuelle convient), avec l'outil officiel de Fedora, [KIWI](https://osinside.github.io/kiwi/) :
 
 ```bash
-bash iso/build-iso.sh     # ~25 Go libres, 30 à 60 min → iso/output/Fedora-Gaming-44-x86_64.iso
+bash iso/build-iso.sh     # ~25 Go libres, environ 1 h 30 → iso/output/Fedora-Gaming-44-x86_64.iso (5,4 Go)
 ```
 
 Sur un hôte plus ancien que Fedora 44, le script fait la construction dans un conteneur Fedora 44 (podman ou docker). Gravez ensuite l'ISO avec Fedora Media Writer, Ventoy ou `dd`.
@@ -196,10 +196,11 @@ Identifiants de la VM de test : `guill` / `osgaming2026`, modifiables avec les v
 - `install.sh` complet et `doctor.sh` sans erreur ;
 - l'allègement de Plasma et la disposition Windows 11 ;
 - les sessions Sway et Niri (clavier et souris, applis X11 dans Niri) ;
-- Naruto Online : connexion, chargement du jeu, son et souris ; l'icône du menu détecte bien l'installeur officiel et lance l'installation.
+- Naruto Online : connexion, chargement du jeu, son et souris ; l'icône du menu détecte bien l'installeur officiel et lance l'installation ;
+- l'ISO : construction complète avec `iso/build-iso.sh` (5,4 Go), puis démarrage en session live dans une VM EFI. Le support est vérifié au démarrage, et Plasma s'ouvre en français avec la disposition Windows 11 et l'installeur.
 
 **Pas encore testé** :
-- **l'ISO** : la construction passe toutes les étapes (paquets, configuration fedora-gaming), mais la compression finale n'a pas encore abouti dans la VM de test ; l'installation depuis l'ISO reste à valider ;
+- **l'installation depuis l'ISO** sur un disque (la construction et la session live sont validées, voir ci-dessus) ;
 - l'installation complète de Naruto Online depuis l'installeur officiel `.zip` (interrompue pendant le test) ;
 - les performances sur une vraie carte graphique ;
 - le VRR ;
