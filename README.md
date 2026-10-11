@@ -88,7 +88,7 @@ bash install.sh --extras         # + OBS, Kdenlive, GIMP, VLC, qBittorrent
 
 ### B. Avec l'ISO fedora-gaming
 
-> ✅ Construction et session live validées (ISO de 5,4 Go). L'installation sur disque depuis l'ISO reste à valider : voir [l'état des tests](#9-état-des-tests-et-limites).
+> ✅ Construction, session live et installation sur disque testées en VM (ISO de 5,4 Go) : voir [l'état des tests](#9-état-des-tests-et-limites).
 
 L'ISO est une Fedora KDE 44 Live officielle, à laquelle s'ajoutent le bureau Windows 11, la session Niri, Steam, Wine, Lutris et l'icône Naruto Online, en français avec clavier AZERTY. On la construit soi-même sur une Fedora (une machine virtuelle convient), avec l'outil officiel de Fedora, [KIWI](https://osinside.github.io/kiwi/) :
 
@@ -212,9 +212,10 @@ Identifiants de la VM de test : `guill` / `osgaming2026`, modifiables avec les v
 - la session Niri (clavier et souris, applis X11) ;
 - Naruto Online : connexion, chargement du jeu, son et souris ; l'icône du menu détecte bien l'installeur officiel et lance l'installation ;
 - l'ISO : construction complète avec `iso/build-iso.sh` (5,4 Go), puis démarrage en session live dans une VM EFI. Le support est vérifié au démarrage, et Plasma s'ouvre en français avec la disposition Windows 11 et l'installeur.
+- l'installation depuis l'ISO dans une VM EFI : le premier essai a révélé un système qui ne démarrait pas (GRUB sans entrée Fedora, à cause d'un chemin de construction resté dans `grubenv`) ; une fois corrigé, le système démarre sur l'assistant de premier démarrage de Plasma, puis sur l'écran de connexion et la session Niri.
 
 **Pas encore testé** :
-- **l'installation depuis l'ISO** sur un disque (la construction et la session live sont validées, voir ci-dessus) ;
+- une installation complète depuis l'**ISO reconstruite** après le correctif du démarrage (le correctif lui-même est vérifié : voir ci-dessus) ;
 - l'installation complète de Naruto Online depuis l'installeur officiel `.zip` (interrompue pendant le test) ;
 - les performances sur une vraie carte graphique ;
 - le VRR ;
