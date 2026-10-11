@@ -4,7 +4,7 @@
 #  Construit l'ISO Live « Fedora Gaming 44 » avec KIWI, l'outil officiel de
 #  Fedora : l'ISO Fedora KDE officielle + nos ajouts (iso/kiwi/).
 #
-#  Contenu : Plasma façon Windows 11 allégé, sessions Sway et Niri prêtes à
+#  Contenu : Plasma façon Windows 11 allégé, session Niri simple et prête à
 #  l'emploi, Steam/Wine/Lutris/GameMode/MangoHud, Naruto Online préconfiguré
 #  (installation au 1er clic), français/AZERTY. Au 1er démarrage du système
 #  installé, un assistant propose install.sh pour le reste (Flatpaks, LACT…).

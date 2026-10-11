@@ -2,14 +2,14 @@
 <!--
   fedora-gaming — iso/kiwi/fedora-gaming.xml
   Profil KIWI « Gaming-KDE » : l'ISO officielle Fedora KDE
-  (KDE-Desktop-Live) + RPM Fusion + stack jeu + sessions Sway/Niri,
+  (KDE-Desktop-Live) + RPM Fusion + stack jeu + session Niri,
   sans le superflu (même liste que desktop/debloat-plasma.sh).
   Les réglages (thème Windows 11, Naruto, configs) sont posés par
   iso/kiwi/config-gaming.sh à partir de /usr/share/fedora-gaming.
 -->
 <image>
 	<profiles>
-		<profile name="Gaming-KDE" description="Fedora Gaming — Plasma façon Windows 11 + Sway + Niri (Live)">
+		<profile name="Gaming-KDE" description="Fedora Gaming — Plasma façon Windows 11 + Niri (Live)">
 			<requires profile="KDE-Desktop-Live"/>
 		</profile>
 	</profiles>
@@ -58,8 +58,7 @@
 		<package name="unzip"/>
 		<!-- Thème -->
 		<package name="papirus-icon-theme"/>
-		<!-- Sessions Sway / Niri prêtes à l'emploi (desktop/setup-tiling.sh) -->
-		<package name="sway"/>
+		<!-- Session Niri prête à l'emploi, façon Windows (desktop/setup-tiling.sh) -->
 		<package name="niri"/>
 		<package name="waybar"/>
 		<package name="fuzzel"/>
@@ -75,7 +74,7 @@
 		<package name="network-manager-applet"/>
 		<package name="pavucontrol"/>
 		<package name="kdialog"/>
-		<package name="xdg-desktop-portal-wlr"/>
+		<package name="xdg-desktop-portal-gnome"/>
 		<package name="xdg-desktop-portal-gtk"/>
 		<package name="polkit-kde"/>
 		<package name="fontawesome-6-free-fonts"/>

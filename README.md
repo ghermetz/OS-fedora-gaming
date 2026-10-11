@@ -4,9 +4,9 @@
 
 Un script (ou une ISO) transforme une Fedora KDE fraîchement installée en système de jeu complet : Steam, Proton, Wine, Lutris, Heroic, codecs, outils AMD, Android (Waydroid), applis Windows (WinBoat)… le tout sur un Plasma allégé, réglé pour le jeu, et pensé pour quelqu'un qui vient de Windows.
 
-> 🇫🇷 **Résumé** — Transforme une Fedora KDE fraîchement installée en système complet pour le jeu, le développement et le quotidien : Plasma allégé façon Windows 11, sessions légères Sway et Niri en option, Naruto Online préconfiguré. Lancez `bash install.sh` sur Fedora KDE, ou construisez une ISO prête à installer avec `bash iso/build-iso.sh`.
+> 🇫🇷 **Résumé** — Transforme une Fedora KDE fraîchement installée en système complet pour le jeu, le développement et le quotidien : Plasma allégé façon Windows 11, session légère Niri façon Windows en option, Naruto Online préconfiguré. Lancez `bash install.sh` sur Fedora KDE, ou construisez une ISO prête à installer avec `bash iso/build-iso.sh`.
 >
-> 🇬🇧 **Summary** — Turns a fresh Fedora KDE install into a complete gaming, development and daily-driver system: a debloated, Windows-11-like Plasma desktop, optional lightweight Sway and Niri sessions, and a pre-configured Naruto Online launcher. Run `bash install.sh` on Fedora KDE, or build a ready-to-install live ISO with `bash iso/build-iso.sh`. The rest of the documentation is in French.
+> 🇬🇧 **Summary** — Turns a fresh Fedora KDE install into a complete gaming, development and daily-driver system: a debloated, Windows-11-like Plasma desktop, an optional lightweight, Windows-like Niri session, and a pre-configured Naruto Online launcher. Run `bash install.sh` on Fedora KDE, or build a ready-to-install live ISO with `bash iso/build-iso.sh`. The rest of the documentation is in French.
 
 ---
 
@@ -31,7 +31,7 @@ Un script (ou une ISO) transforme une Fedora KDE fraîchement installée en syst
 - **Plasma façon Windows 11** : barre des tâches centrée avec menu Démarrer et applis épinglées, thème sombre, Alt+Tab en vignettes, ouverture en un clic.
 - **Un système allégé** : sans la suite de messagerie KDE ni son serveur de base de données (Akonadi + MariaDB), sans rapporteurs de plantage, sans indexation permanente des fichiers. Docker ne démarre que quand on en a besoin.
 - **Le jeu prêt à l'emploi** : Steam, GameMode, MangoHud, Gamescope, Wine, Lutris, Heroic, Bottles, ProtonUp-Qt, LACT pour les cartes AMD (ventilateurs, overclocking).
-- **Deux sessions légères en bonus**, Sway et Niri, utilisables sans rien apprendre (bouton Démarrer, aide intégrée, raccourcis Windows).
+- **Une session légère en bonus**, Niri, réglée pour ressembler à Windows et s'utiliser sans rien apprendre (bouton Démarrer, vue des tâches, Alt+Tab, raccourcis Windows, aide intégrée).
 - **Naruto Online préconfiguré** : une icône dans le menu installe le launcher officiel au premier clic.
 - **Le reste du quotidien** : Discord (Vesktop), Netflix, Jellyfin, LibreOffice, Thunderbird, VS Code, Android avec Waydroid, applis Windows avec WinBoat.
 
@@ -80,7 +80,7 @@ bash install.sh --vanilla        # Waydroid sans les services Google
 bash install.sh --skip-waydroid  # sans Android
 bash install.sh --skip-winboat   # sans WinBoat
 bash install.sh --skip-desktop   # garder son bureau Plasma tel quel
-bash install.sh --skip-tiling    # sans les sessions Sway/Niri
+bash install.sh --skip-tiling    # sans la session Niri
 bash install.sh --extras         # + OBS, Kdenlive, GIMP, VLC, qBittorrent
 ```
 
@@ -90,7 +90,7 @@ bash install.sh --extras         # + OBS, Kdenlive, GIMP, VLC, qBittorrent
 
 > ✅ Construction et session live validées (ISO de 5,4 Go). L'installation sur disque depuis l'ISO reste à valider : voir [l'état des tests](#9-état-des-tests-et-limites).
 
-L'ISO est une Fedora KDE 44 Live officielle, à laquelle s'ajoutent le bureau Windows 11, les sessions Sway et Niri, Steam, Wine, Lutris et l'icône Naruto Online, en français avec clavier AZERTY. On la construit soi-même sur une Fedora (une machine virtuelle convient), avec l'outil officiel de Fedora, [KIWI](https://osinside.github.io/kiwi/) :
+L'ISO est une Fedora KDE 44 Live officielle, à laquelle s'ajoutent le bureau Windows 11, la session Niri, Steam, Wine, Lutris et l'icône Naruto Online, en français avec clavier AZERTY. On la construit soi-même sur une Fedora (une machine virtuelle convient), avec l'outil officiel de Fedora, [KIWI](https://osinside.github.io/kiwi/) :
 
 ```bash
 bash iso/build-iso.sh     # ~25 Go libres, environ 1 h 30 → iso/output/Fedora-Gaming-44-x86_64.iso (5,4 Go)
@@ -131,14 +131,28 @@ Depuis la session live, l'installeur propose un **partitionnement manuel** : rie
 - Réglages jeu : *tearing* autorisé en plein écran (utile avec le VRR/FreeSync), souris sans accélération.
 - C'est un thème global Plasma (« Fedora Gaming (Windows 11) ») : on peut le réappliquer ou en changer dans *Paramètres système → Thème global*.
 
-### Sessions bonus : Sway et Niri
+### Session bonus : Niri, simple et façon Windows
 
-À choisir sur l'écran de connexion (en bas à gauche, « Session de bureau »). Elles sont légères (environ 0,9 Go de mémoire utilisée dans nos tests, contre environ 2 Go pour Plasma allégé) et pensées pour s'en servir sans rien apprendre :
+À choisir sur l'écran de connexion (en bas à gauche, « Session de bureau »). Niri est léger (environ 0,9 Go de mémoire utilisée dans nos tests, contre environ 2 Go pour Plasma allégé) et il est réglé ici pour se comporter le plus possible comme Windows :
 
-- **Barre des tâches** : bouton **⊞ Démarrer** (menu d'applications avec recherche), fenêtres ouvertes cliquables, réseau, volume (un clic ouvre le mixeur), bouton **?** pour l'aide et bouton **⏻** (verrouiller, déconnexion, veille, redémarrer, éteindre).
-- **Raccourcis Windows** : Super+Espace (menu), Super+E (fichiers), Alt+F4, Alt+Tab, Super+L (verrouiller), Ctrl+Alt+Suppr (menu d'extinction), Impr (capture). **Super+F1** affiche l'aide.
-- **Sway** (« mode Windows ») : les fenêtres flottent comme sous Windows. Super+← / → les ancre sur une moitié d'écran, Super+↑ agrandit, Super+H réduit (un clic dans la barre fait revenir la fenêtre).
-- **Niri** (mosaïque défilante) : les fenêtres s'alignent en colonnes sur une bande horizontale. Super+← / → pour naviguer, Super+Tab pour la vue d'ensemble. L'aide, en français, s'affiche au premier démarrage.
+- **Barre des tâches** comme Windows 10 : à gauche, bouton **⊞ Démarrer** (menu d'applications avec recherche), bouton **⧉ Vue des tâches** et fenêtres ouvertes cliquables ; à droite, zone de notification (réseau…), volume (un clic ouvre le mixeur), aide **?**, extinction **⏻** et l'heure.
+- **Les fenêtres s'ouvrent en grand**, comme une fenêtre agrandie sous Windows. **Alt+Tab** affiche le sélecteur avec aperçus. Les applications gardent leur barre de titre, avec le bouton de fermeture et le bouton d'agrandissement.
+- **Raccourcis Windows** :
+
+  | Action | Raccourci |
+  |---|---|
+  | Menu Démarrer | Super+Espace (ou le bouton ⊞) |
+  | Vue des tâches (toutes les fenêtres, bureaux) | Super+Tab (ou le bouton ⧉, ou la souris dans le coin en haut à gauche) |
+  | Changer de fenêtre | Alt+Tab |
+  | Fermer | Alt+F4 |
+  | Agrandir / moitié d'écran | Super+↑ / Super+↓ |
+  | Bureau virtuel suivant / précédent | Ctrl+Super+→ / Ctrl+Super+← |
+  | Explorateur, paramètres, verrouiller | Super+E, Super+I, Super+L |
+  | Capture d'une zone / de l'écran | Super+Maj+S / Maj+Impr |
+  | Éteindre, redémarrer, se déconnecter | Ctrl+Alt+Suppr (ou le bouton ⏻) |
+  | Aide (en français) | Super+F1 (ou le bouton ?) |
+
+- Particularité de Niri : les fenêtres sont rangées côte à côte sur une bande qui défile, plutôt que superposées. Super+← / → passe d'une fenêtre à sa voisine, et Super+↓ met deux fenêtres côte à côte. Il n'y a pas de « réduire » : on passe d'une fenêtre à l'autre avec la barre des tâches ou Alt+Tab.
 
 ## 5. Logiciels installés
 
@@ -195,7 +209,7 @@ Identifiants de la VM de test : `guill` / `osgaming2026`, modifiables avec les v
 **Testé dans une VM Fedora 43 KDE** (VirtualBox, avec et sans accélération 3D) :
 - `install.sh` complet et `doctor.sh` sans erreur ;
 - l'allègement de Plasma et la disposition Windows 11 ;
-- les sessions Sway et Niri (clavier et souris, applis X11 dans Niri) ;
+- la session Niri (clavier et souris, applis X11) ;
 - Naruto Online : connexion, chargement du jeu, son et souris ; l'icône du menu détecte bien l'installeur officiel et lance l'installation ;
 - l'ISO : construction complète avec `iso/build-iso.sh` (5,4 Go), puis démarrage en session live dans une VM EFI. Le support est vérifié au démarrage, et Plasma s'ouvre en français avec la disposition Windows 11 et l'installeur.
 
@@ -222,8 +236,8 @@ OS-fedora-gaming/
 │   ├── setup-desktop.sh       ← Plasma façon Windows 11, allègement, Naruto
 │   ├── debloat-plasma.sh      ← liste de ce qui est retiré et désactivé
 │   ├── plasma/                ← thème global « Fedora Gaming (Windows 11) »
-│   ├── setup-tiling.sh        ← sessions Sway et Niri
-│   ├── tiling/                ← configurations Sway, Niri, waybar, lanceur, menu d'extinction
+│   ├── setup-tiling.sh        ← session Niri façon Windows
+│   ├── tiling/                ← configurations Niri, waybar, lanceur, menu d'extinction
 │   └── firstrun/              ← assistant de première connexion (ISO)
 ├── apps/                      ← Naruto Online (script et icône), WinBoat
 ├── config/                    ← MangoHud, icône Netflix
@@ -244,6 +258,6 @@ Les retours d'expérience (en particulier sur du vrai matériel), les signalemen
 - [ ] Publier des ISO prêtes à télécharger
 - [x] Dépôt séparé [naruto-online-linux](https://github.com/ghermetz/naruto-online-linux)
 
-**Sources** : [Fedora KDE](https://fedoraproject.org/kde/) · [fedora-kiwi-descriptions](https://forge.fedoraproject.org/releng/fedora-kiwi-descriptions) · [RPM Fusion](https://rpmfusion.org) · [LACT](https://github.com/ilya-zlobintsev/LACT) · [WinBoat](https://winboat.app) · [Waydroid](https://docs.waydro.id) · [Lutris](https://lutris.net) · [ProtonDB](https://www.protondb.com) · [Niri](https://github.com/YaLTeR/niri) · [Sway](https://swaywm.org)
+**Sources** : [Fedora KDE](https://fedoraproject.org/kde/) · [fedora-kiwi-descriptions](https://forge.fedoraproject.org/releng/fedora-kiwi-descriptions) · [RPM Fusion](https://rpmfusion.org) · [LACT](https://github.com/ilya-zlobintsev/LACT) · [WinBoat](https://winboat.app) · [Waydroid](https://docs.waydro.id) · [Lutris](https://lutris.net) · [ProtonDB](https://www.protondb.com) · [Niri](https://github.com/YaLTeR/niri)
 
 Ce projet ne contient aucun logiciel propriétaire ni contenu protégé : uniquement des scripts, des configurations et de la documentation. Les marques citées appartiennent à leurs propriétaires respectifs.

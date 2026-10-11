@@ -311,7 +311,7 @@ fi
 
 # ---------------------------------------------------------- sessions tiling
 if [ "$SKIP_TILING" = "0" ]; then
-  log "Sessions tiling bonus — Sway (mode Windows) + Niri (tiling défilant)"
+  log "Session bonus Niri — légère, simple, façon Windows"
   if ! bash "$SCRIPT_DIR/desktop/setup-tiling.sh"; then
     warn "Setup tiling en échec — relance plus tard : bash desktop/setup-tiling.sh"
   fi

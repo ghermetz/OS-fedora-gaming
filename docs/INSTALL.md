@@ -90,7 +90,7 @@ ASSUME_YES=1 bash install.sh
 bash install.sh --skip-waydroid   # Sans Android
 bash install.sh --skip-winboat    # Sans Windows VM
 bash install.sh --skip-desktop    # Sans config KDE
-bash install.sh --skip-tiling     # Sans Sway/Niri
+bash install.sh --skip-tiling     # Sans la session Niri
 bash install.sh --extras          # + OBS, Kdenlive, GIMP
 bash install.sh --vanilla         # Waydroid sans Google Apps
 ```
@@ -107,7 +107,7 @@ bash install.sh --vanilla         # Waydroid sans Google Apps
 | **Dev** | VS Code, Distrobox, ZCode, Git |
 | **VM** | WinBoat (Docker + Windows 11) |
 | **Bureau** | KDE Plasma optimisé gaming |
-| **Tiling** | Sway (floating mode) + Niri |
+| **Session légère** | Niri, réglé façon Windows |
 
 ### 4. Configurations manuelles
 

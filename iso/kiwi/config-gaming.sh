@@ -13,7 +13,7 @@ if [[ "$kiwi_profiles" == *"Gaming"* ]]; then
 	# Plasma façon Windows 11, allégé, Naruto Online préconfiguré
 	bash "$FG/desktop/setup-desktop.sh" --system
 
-	# Sessions Sway / Niri : configurations dans /etc/skel (chaque nouveau compte)
+	# Session Niri façon Windows : configurations dans /etc/skel (chaque nouveau compte)
 	HOME=/etc/skel bash "$FG/desktop/setup-tiling.sh"
 
 	# Première connexion : proposer de terminer la configuration (install.sh)
@@ -38,4 +38,12 @@ XKB
 vm.max_map_count=2147483642
 SYSCTL
 	systemctl enable fstrim.timer 2>/dev/null || true
+
+	# GRUB : la construction (KIWI en conteneur) laisse dans grubenv un « blsdir »
+	# pointant vers le dossier de build. Copié tel quel par l'installeur, il rend
+	# le système installé non démarrable (GRUB ne voit aucune entrée Fedora et
+	# n'affiche que « UEFI Firmware Settings »). On le supprime.
+	if [ -f /boot/grub2/grubenv ]; then
+		grub2-editenv /boot/grub2/grubenv unset blsdir 2>/dev/null || sed -i '/^blsdir=/d' /boot/grub2/grubenv
+	fi
 fi

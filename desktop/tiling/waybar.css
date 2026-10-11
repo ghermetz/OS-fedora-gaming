@@ -31,12 +31,21 @@ window#waybar {
 #taskbar button:hover  { background: rgba(255, 255, 255, 0.12); }
 #taskbar button.active { background: rgba(229, 9, 20, 0.45); }
 
+/* (bureaux virtuels : via la vue des tâches, comme sous Windows) */
 #workspaces button {
     padding: 0 8px;
     color: #9a9aa6;
 }
 #workspaces button.active,
 #workspaces button.focused { color: #e50914; }
+
+#custom-taskview {
+    padding: 0 12px;
+    margin: 4px 2px;
+    border-radius: 8px;
+    font-size: 18px;
+}
+#custom-taskview:hover { background: rgba(255, 255, 255, 0.12); }
 
 #clock, #pulseaudio, #tray, #custom-help, #custom-power {
     padding: 0 10px;

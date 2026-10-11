@@ -1,24 +1,28 @@
-// fedora-gaming — barre des tâches waybar « façon Windows » (Sway + Niri)
-// Démarrer (lanceur) · bureaux · fenêtres ouvertes | heure | systray · son · aide · éteindre
+// fedora-gaming — barre des tâches waybar « façon Windows » (session Niri)
+// Gauche : Démarrer · Vue des tâches · fenêtres ouvertes
+// Droite : zone de notification · volume · aide · éteindre · heure et date
 {
     "layer": "top",
     "position": "bottom",
-    "height": 40,
-    "modules-left": ["custom/start", "niri/workspaces", "sway/workspaces", "wlr/taskbar"],
-    "modules-center": ["clock"],
-    "modules-right": ["tray", "pulseaudio", "custom/help", "custom/power"],
+    "height": 42,
+    "modules-left": ["custom/start", "custom/taskview", "wlr/taskbar"],
+    "modules-center": [],
+    "modules-right": ["tray", "pulseaudio", "custom/help", "custom/power", "clock"],
 
     "custom/start": {
         "format": "⊞  Démarrer",
         "tooltip-format": "Applications (Super+Espace)",
         "on-click": "fuzzel"
     },
-    "sway/workspaces": {
-        "disable-scroll": true
+    "custom/taskview": {
+        "format": "⧉",
+        "tooltip-format": "Vue des tâches : toutes les fenêtres et les bureaux (Super+Tab)",
+        // open- et non toggle- : le clic déclenche deux fois (appui + relâchement),
+        // une bascule refermerait aussitôt la vue
+        "on-click": "niri msg action open-overview"
     },
-    "niri/workspaces": {},
     "wlr/taskbar": {
-        "format": "{icon} {title:.18}",
+        "format": "{icon} {title:.22}",
         "icon-size": 22,
         "tooltip-format": "{title}",
         "on-click": "activate",
@@ -32,7 +36,7 @@
     "pulseaudio": {
         "format": "🔊 {volume}%",
         "format-muted": "🔇 muet",
-        "tooltip-format": "Clic : mixeur · clic droit : couper le son",
+        "tooltip-format": "Clic : mixeur · clic droit : couper le son · molette : volume",
         "on-click": "pavucontrol",
         "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
     },
@@ -47,7 +51,7 @@
     },
     "custom/power": {
         "format": "⏻",
-        "tooltip-format": "Verrouiller, se déconnecter, redémarrer, éteindre",
+        "tooltip-format": "Verrouiller, se déconnecter, redémarrer, éteindre (Ctrl+Alt+Suppr)",
         "on-click": "wlogout -p layer-shell -b 5 -T 330 -B 330"
     }
 }
