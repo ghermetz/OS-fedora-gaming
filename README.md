@@ -98,6 +98,20 @@ bash iso/build-iso.sh     # ~25 Go libres, environ 1 h 30 → iso/output/Fedora-
 
 Sur un hôte plus ancien que Fedora 44, le script fait la construction dans un conteneur Fedora 44 (podman ou docker). Gravez ensuite l'ISO avec Fedora Media Writer, Ventoy ou `dd`.
 
+#### Télécharger l'ISO déjà construite
+
+Si vous ne voulez pas la construire vous-même, l'ISO est disponible ici :
+
+- **Lien** : <https://kdrive.infomaniak.com/app/share/577121/4a82a069-3e0a-438d-a7b5-c19bfd5d2da5> (`Fedora-Gaming-44-x86_64.iso`, 5,4 Go)
+- **SHA256** : `5be22378d9c4b37aa6bd4df595113e0c9f45eb2b2d6284adbc7876bc70a40f27`
+
+Avant de graver l'ISO, vérifiez que le fichier n'est pas abîmé, en comparant le résultat avec la somme ci-dessus :
+
+```bash
+sha256sum Fedora-Gaming-44-x86_64.iso                     # Linux
+certutil -hashfile Fedora-Gaming-44-x86_64.iso SHA256     # Windows
+```
+
 Depuis la session live, l'installeur propose un **partitionnement manuel** : rien n'est effacé d'office, et un Windows existant est préservé. Au premier démarrage du système installé, un assistant propose de terminer la configuration (codecs, Flatpaks, LACT, VS Code, Edge, WinBoat, Waydroid), car ces éléments viennent de dépôts tiers qui ne peuvent pas être intégrés à l'ISO.
 
 ### Installer à côté de Windows (dual-boot)
@@ -258,7 +272,7 @@ Les retours d'expérience (en particulier sur du vrai matériel), les signalemen
 **Feuille de route** :
 - [ ] Snapper et retour arrière depuis GRUB, pour revenir à l'état d'avant une mise à jour
 - [ ] Tests sur du vrai matériel (AMD, Intel ; NVIDIA à documenter)
-- [ ] Publier des ISO prêtes à télécharger
+- [x] ISO prête à télécharger (voir la section Installation)
 - [x] Dépôt séparé [naruto-online-linux](https://github.com/ghermetz/naruto-online-linux)
 
 **Sources** : [Fedora KDE](https://fedoraproject.org/kde/) · [fedora-kiwi-descriptions](https://forge.fedoraproject.org/releng/fedora-kiwi-descriptions) · [RPM Fusion](https://rpmfusion.org) · [LACT](https://github.com/ilya-zlobintsev/LACT) · [WinBoat](https://winboat.app) · [Waydroid](https://docs.waydro.id) · [Lutris](https://lutris.net) · [ProtonDB](https://www.protondb.com) · [Niri](https://github.com/YaLTeR/niri)
