@@ -206,6 +206,8 @@ Identifiants de la VM de test : `guill` / `osgaming2026`, modifiables avec les v
 
 ## 9. État des tests et limites
 
+Le rapport détaillé, avec chaque problème trouvé et sa correction, est dans [docs/TESTS.md](docs/TESTS.md).
+
 **Testé dans une VM Fedora 43 KDE** (VirtualBox, avec et sans accélération 3D) :
 - `install.sh` complet et `doctor.sh` sans erreur ;
 - l'allègement de Plasma et la disposition Windows 11 ;
