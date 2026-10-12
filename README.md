@@ -179,7 +179,7 @@ Depuis la session live, l'installeur propose un **partitionnement manuel** : rie
 | Carte AMD | [LACT](https://github.com/ilya-zlobintsev/LACT) : ventilateurs, overclocking, limite de puissance |
 | Jeux Windows hors Steam | Wine 11, Lutris, Heroic (Epic, GOG, Amazon), Bottles |
 | Applis Windows | [WinBoat](https://winboat.app) : une VM Windows dont les applis s'intègrent au bureau (licence Windows requise) |
-| Android | [Waydroid](https://docs.waydro.id) avec Google Play (option `--vanilla` pour s'en passer) et traduction des applis ARM |
+| Android | [Waydroid](https://docs.waydro.id) avec Google Play (option `--vanilla` pour s'en passer) et traduction des applis ARM. Si le Play Store signale un appareil « non certifié », enregistrez son identifiant sur [google.com/android/uncertified](https://www.google.com/android/uncertified) ([marche à suivre](https://docs.waydro.id/faq/google-play-certification)) |
 | Communication, vidéo | Vesktop (Discord avec partage d'écran et son), Netflix (via Edge, 1080p maximum sous Linux), Jellyfin |
 | Bureautique, dev | LibreOffice, Thunderbird, VS Code, Distrobox, ZCode |
 | Rétro, Flash | RetroArch, Ruffle (jeux Flash simples) |

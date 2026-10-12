@@ -109,6 +109,13 @@ if systemctl is-enabled --quiet docker.socket 2>/dev/null; then
 elif rpm -q docker-ce >/dev/null 2>&1; then
   note "Docker démarre avec le système → sudo systemctl disable docker.service && sudo systemctl enable docker.socket"
 fi
+if rpm -q docker-ce >/dev/null 2>&1 && rpm -q waydroid >/dev/null 2>&1; then
+  if grep -qs 'ip-forward-no-drop' /etc/docker/daemon.json; then
+    ok "Docker ne coupe pas Internet à Waydroid (ip-forward-no-drop)"
+  else
+    bad "Docker peut couper Internet à Waydroid → ajouter { \"ip-forward-no-drop\": true } à /etc/docker/daemon.json"
+  fi
+fi
 if [ -r /dev/kvm ] && [ -w /dev/kvm ]; then
   ok "KVM accessible (/dev/kvm)"
 else

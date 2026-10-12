@@ -300,6 +300,14 @@ else
     fi
     sudo dnf install -y docker-ce docker-ce-cli containerd docker-buildx-plugin docker-compose-plugin
   fi
+  # Au démarrage, Docker bloque tout le trafic qui transite par le PC (politique
+  # FORWARD à DROP) : Android (Waydroid) perd alors Internet jusqu'au redémarrage.
+  if [ ! -s /etc/docker/daemon.json ]; then
+    sudo mkdir -p /etc/docker
+    echo '{ "ip-forward-no-drop": true }' | sudo tee /etc/docker/daemon.json >/dev/null
+  elif ! grep -q 'ip-forward-no-drop' /etc/docker/daemon.json; then
+    warn "Ajoute \"ip-forward-no-drop\": true à /etc/docker/daemon.json, sinon Waydroid perd Internet quand Docker tourne."
+  fi
   # Docker à la demande : la socket le démarre quand WinBoat s'en sert
   sudo systemctl disable --now docker.service 2>/dev/null || true
   sudo systemctl enable --now docker.socket
