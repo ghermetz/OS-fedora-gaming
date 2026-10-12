@@ -96,7 +96,7 @@ L'ISO est une Fedora KDE 44 Live officielle, à laquelle s'ajoutent le bureau Wi
 bash iso/build-iso.sh     # ~25 Go libres, environ 1 h 30 → iso/output/Fedora-Gaming-44-x86_64.iso (5,4 Go)
 ```
 
-Sur un hôte plus ancien que Fedora 44, le script fait la construction dans un conteneur Fedora 44 (podman ou docker). Gravez ensuite l'ISO avec Fedora Media Writer, Ventoy ou `dd`.
+La construction se fait dans un conteneur Fedora 44 (podman ou docker) : directement sur l'hôte, elle échoue au démarrage de KIWI. Gravez ensuite l'ISO avec Fedora Media Writer, Ventoy ou `dd`.
 
 #### Télécharger l'ISO déjà construite
 

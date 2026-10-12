@@ -12,10 +12,11 @@
 #  Installation depuis la session live : partitionnement MANUEL dans
 #  l'installeur → le dual-boot Windows est préservé (rien n'est effacé d'office).
 #
-#  Prérequis : un Fedora (la VM de test convient), ~25 Go libres, Internet.
-#  Hôte plus ancien que Fedora 44 → construction automatique dans un
-#  conteneur Fedora 44 (podman ou docker) : le rpm de l'hôte doit être au
-#  moins aussi récent que celui de l'image.
+#  Prérequis : un Fedora (la VM de test convient), ~25 Go libres, Internet,
+#  podman ou docker. La construction se fait dans un conteneur Fedora 44 :
+#  directement sur un hôte Fedora 44, l'amorçage de KIWI échoue (scriptlets
+#  %sysusers en « exit status 127 », constaté le 12/10/2026 avec rpm 6.0.2).
+#  FG_ISO_NATIVE=1 force la construction sur l'hôte (hôte Fedora 44 ou plus).
 #    bash iso/build-iso.sh            # → iso/output/Fedora-Gaming-44-x86_64.iso
 # ============================================================================
 set -euo pipefail
@@ -36,10 +37,10 @@ die() { printf '\033[1;31m[✘] %s\033[0m\n' "$*" >&2; exit 1; }
 if [ "${FG_IN_CONTAINER:-0}" != "1" ]; then
   [ "$(id -u)" -eq 0 ] && die "Lance-le en utilisateur normal (sudo sera demandé)."
   HOST_VER="$(rpm -E %fedora)"
-  if [ "$HOST_VER" -lt "$RELEASE" ]; then
+  if [ "$HOST_VER" -lt "$RELEASE" ] || [ "${FG_ISO_NATIVE:-0}" != "1" ]; then
     CT="$(command -v podman || command -v docker || true)"
-    [ -n "$CT" ] || die "Fedora $HOST_VER < $RELEASE : installe podman (sudo dnf install podman)."
-    log "Hôte Fedora $HOST_VER → construction dans un conteneur Fedora $RELEASE ($(basename "$CT"))"
+    [ -n "$CT" ] || die "Installe podman (sudo dnf install podman) : la construction se fait dans un conteneur Fedora $RELEASE."
+    log "Construction dans un conteneur Fedora $RELEASE ($(basename "$CT"))"
     sudo mkdir -p "$WORK"
     mkdir -p "$OUT"
     # /var/tmp de l'hôte : KIWI y prépare l'EFI avec des étiquettes SELinux que
