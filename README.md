@@ -188,9 +188,10 @@ Depuis la session live, l'installeur propose un **partitionnement manuel** : rie
 
 ## 6. Naruto Online
 
-Le launcher officiel (application .NET avec Chromium et Flash intégrés) fonctionne **sous Wine, sans aucun réglage de rendu**.
+Le launcher officiel (application .NET avec Chromium et Flash intégrés) fonctionne **sous Wine**. Le script installe aussi **DXVK** (affichage par Vulkan) : avec le Direct3D intégré à Wine, l'affichage saccade.
 
 - Avec l'ISO ou après `install.sh`, une icône **Naruto Online** est dans le menu. Au premier clic, elle cherche l'installeur officiel (`Naruto Online_fr_….zip` ou `.exe` dans vos Téléchargements) ou le jeu sur une partition Windows. Sinon, elle demande où il se trouve, puis installe tout (5 à 30 minutes, à cause de .NET 4.8 ; dans la fenêtre de l'installeur officiel, cliquez sur « Utiliser ») et lance le jeu.
+- Affichage saccadé sur une installation antérieure au 12 octobre 2026 : relancez `apps/naruto-online.sh setup`, le jeu fermé, pour ajouter DXVK.
 - En ligne de commande : `apps/naruto-online.sh setup <installeur ou dossier>`, puis `apps/naruto-online.sh run`.
 
 Le projet ne contient ni le jeu ni le launcher : vous fournissez l'installeur officiel. Détails, dépannage et fausses pistes : [docs/naruto-online.md](docs/naruto-online.md). Une version indépendante, pour toutes les distributions, existe aussi : [naruto-online-linux](https://github.com/ghermetz/naruto-online-linux).
@@ -227,19 +228,17 @@ Le rapport détaillé, avec chaque problème trouvé et sa correction, est dans 
 - `install.sh` complet et `doctor.sh` sans erreur ;
 - l'allègement de Plasma et la disposition Windows 11 ;
 - la session Niri (clavier et souris, applis X11) ;
-- Naruto Online : connexion, chargement du jeu, son et souris ; l'icône du menu détecte bien l'installeur officiel et lance l'installation ;
+- Naruto Online : connexion, chargement du jeu, son et souris ;
 - l'ISO : construction complète avec `iso/build-iso.sh` (5,4 Go), puis démarrage en session live dans une VM EFI. Le support est vérifié au démarrage, et Plasma s'ouvre en français avec la disposition Windows 11 et l'installeur.
 - l'installation depuis l'ISO dans une VM EFI : le premier essai a révélé un système qui ne démarrait pas (GRUB sans entrée Fedora, à cause d'un chemin de construction resté dans `grubenv`) ; une fois corrigé, le système démarre sur l'assistant de premier démarrage de Plasma, puis sur l'écran de connexion et la session Niri.
 
-**Testé sur un vrai PC** (Ryzen 7 3800X, Radeon RX 7600 XT, installation depuis l'ISO) : installation, bureau, assistant de fin de configuration, Vulkan, LACT, MangoHud, Wine. Sept problèmes trouvés et corrigés, détaillés dans [docs/TESTS.md](docs/TESTS.md#6-vrai-matériel--installation-depuis-liso-12-octobre-2026). L'ISO téléchargeable ci-dessus a été reconstruite avec ces corrections.
+**Testé sur un vrai PC** (Ryzen 7 3800X, Radeon RX 7600 XT, installation depuis l'ISO) : installation, bureau, assistant de fin de configuration, Vulkan, LACT, MangoHud, Wine ; Naruto Online de l'installeur officiel jusqu'au jeu, fluide avec DXVK ; Waydroid (Android 13, applis ARM, Play Store, Internet). Les problèmes trouvés et leurs corrections sont détaillés dans [docs/TESTS.md](docs/TESTS.md#6-vrai-matériel--installation-depuis-liso-12-octobre-2026). L'ISO téléchargeable ci-dessus a été reconstruite avec ces corrections, sauf DXVK pour Naruto Online, ajouté ensuite (relancer `setup`, voir la section 6).
 
 **Pas encore testé** :
 - une installation complète depuis l'**ISO reconstruite** le 12 octobre 2026 ;
-- l'installation complète de Naruto Online depuis l'installeur officiel `.zip` (interrompue pendant le test) ;
 - les performances en jeu (Steam, Proton) ;
 - le VRR ;
-- le chemin Direct3D 11 de Wine sur une vraie Radeon ;
-- WinBoat (il faut la virtualisation matérielle, que la VM n'a pas).
+- WinBoat (installé et KVM disponible sur le vrai PC, mais pas encore lancé : il faut une licence Windows).
 
 **Limites connues** :
 - Les jeux protégés par un anti-triche au niveau du noyau (Valorant, Fortnite, certains Call of Duty) ne fonctionnent pas sous Linux. Gardez Windows en dual-boot pour ceux-là.
