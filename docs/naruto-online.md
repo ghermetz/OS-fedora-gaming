@@ -4,7 +4,7 @@ Naruto Online se lance avec **le launcher Windows officiel, dans Wine**. Aucune 
 
 > ✅ **Validé le 10/10/2026** dans la VM de test (Fedora 43 KDE, Wine 11 Staging) : le launcher démarre, la connexion fonctionne, le jeu Flash charge à 100 % et l'écran de jeu répond.
 >
-> ✅ **Testé le 12/10/2026 sur un vrai PC** (Fedora 44, Radeon RX 7600 XT) avec l'installeur officiel 3.4.7.0 : installation complète, launcher et connexion avec le rendu accéléré. Le chargement s'est arrêté à 14 % parce qu'un serveur du jeu refusait les connexions de ce réseau (voir *Dépannage*).
+> ✅ **Testé le 12/10/2026 sur un vrai PC** (Fedora 44, Radeon RX 7600 XT) avec l'installeur officiel 3.4.7.0 : installation complète, launcher, connexion et jeu, fluide avec DXVK. Un premier essai est resté bloqué à 14 % pendant qu'un serveur du jeu refusait les connexions ; c'était passager (voir *Dépannage*).
 
 ## Installation (une seule fois, 5 à 30 min)
 
@@ -20,7 +20,7 @@ Pour un dossier, `/chemin/vers/Naruto Online` est celui qui contient `Naruto Onl
 Le script fait quatre choses :
 1. Il copie le jeu dans `~/Games/Naruto Online`. Lancer le jeu directement depuis la partition NTFS de Windows le rend lent et provoque des verrous de fichiers.
 2. Il crée un préfixe Wine dédié dans `~/.local/share/wineprefixes/naruto-online`.
-3. Il installe **.NET Framework 4.8** et les polices Microsoft (`corefonts`) avec winetricks. C'est l'étape longue : 5 minutes sur le PC de test (fibre), jusqu'à 30 minutes ailleurs.
+3. Il installe **.NET Framework 4.8** et les polices Microsoft (`corefonts`) avec winetricks. C'est l'étape longue : 5 minutes sur le PC de test (fibre), jusqu'à 30 minutes ailleurs. Il installe aussi **DXVK** (affichage par Vulkan), bien plus fluide que le Direct3D de Wine.
 4. Il ajoute **« Naruto Online »** au menu des applications.
 
 ## Jouer
@@ -38,6 +38,7 @@ Le premier chargement du jeu est long, comme le signale le launcher lui-même.
 | Symptôme | Solution |
 |---|---|
 | Le chargement du jeu reste bloqué (par exemple à 14 %) et recommence | Le jeu n'arrive pas à joindre un de ses serveurs : `debug.log`, dans le dossier du jeu, contient alors `IO_ERROR`. Vérifie si le même serveur charge sous Windows ou sur un autre réseau ; essaie un autre serveur de jeu |
+| Affichage saccadé ou lent | Vérifie que DXVK est installé : relance `./apps/naruto-online.sh setup` (le jeu fermé) |
 | La page reste blanche | `./apps/naruto-online.sh clear-cache`, puis relance le jeu (tu devras te reconnecter) |
 | « Préfixe incomplet » | Relance `setup` : les étapes déjà faites sont sautées |
 | Tout recommencer | `./apps/naruto-online.sh uninstall`, puis `setup` |

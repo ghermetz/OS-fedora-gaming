@@ -8,6 +8,8 @@
 #  du jeu Flash et écran de jeu interactif — sans aucun réglage de rendu.
 #  /!\ Ne PAS désactiver d3d11/dxgi (ancien « anti écran noir ») : libcef.dll
 #      en dépend, le launcher plante au démarrage (CefSharp.Core introuvable).
+#  DXVK (Direct3D → Vulkan) remplace le Direct3D de Wine : affichage bien plus
+#  fluide (testé sur Radeon RX 7600 XT). NARUTO_NO_DXVK=1 pour s'en passer.
 #
 #  Usage :
 #    ./naruto-online.sh launch           # icône du menu : installe au 1er clic, puis joue
@@ -97,6 +99,19 @@ do_setup() {
       || die "winetricks a échoué — relance : ./naruto-online.sh setup"
     touch "$WINEPREFIX/.naruto-deps-ok"
     ok ".NET 4.8 + corefonts installés"
+  fi
+  # DXVK : le Direct3D 11 intégré à Wine passe par OpenGL et fait saccader
+  # l'affichage du launcher ; DXVK passe par Vulkan (pilotes Vulkan 32 bits
+  # nécessaires : le launcher est en 32 bits).
+  if [ "${NARUTO_NO_DXVK:-0}" = "1" ]; then
+    ok "DXVK non installé (NARUTO_NO_DXVK=1)"
+  elif [ -f "$WINEPREFIX/.naruto-dxvk-ok" ]; then
+    ok "DXVK déjà installé"
+  elif WINEDEBUG=-all winetricks -q --unattended dxvk; then
+    touch "$WINEPREFIX/.naruto-dxvk-ok"
+    ok "DXVK installé (affichage par Vulkan)"
+  else
+    warn "DXVK non installé : le jeu marche quand même, avec un affichage moins fluide"
   fi
 
   log "3/4 — Jeu dans $GAME_DIR"
