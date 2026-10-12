@@ -4,7 +4,7 @@
 #  Naruto Online sous Fedora : le launcher Windows officiel (.NET + CefSharp /
 #  Chromium 75 + Flash PPAPI embarqué) dans un préfixe Wine dédié.
 #
-#  Recette VALIDÉE en VM (Fedora 43, Wine 11 Staging) : connexion, chargement
+#  Recette VALIDÉE (Fedora 43, Wine 11 Staging) : connexion, chargement
 #  du jeu Flash et écran de jeu interactif — sans aucun réglage de rendu.
 #  /!\ Ne PAS désactiver d3d11/dxgi (ancien « anti écran noir ») : libcef.dll
 #      en dépend, le launcher plante au démarrage (CefSharp.Core introuvable).
@@ -40,7 +40,11 @@ need_tools() {
   command -v unzip >/dev/null      || missing+=(unzip)
   [ ${#missing[@]} -eq 0 ] && return 0
   log "Installation de : ${missing[*]}"
-  sudo dnf install -y "${missing[@]}"
+  if   command -v dnf    >/dev/null; then sudo dnf install -y "${missing[@]}"
+  elif command -v apt    >/dev/null; then sudo apt install -y "${missing[@]}"
+  elif command -v pacman >/dev/null; then sudo pacman -S --needed "${missing[@]}"
+  elif command -v zypper >/dev/null; then sudo zypper install -y "${missing[@]}"
+  else die "Installe toi-même : ${missing[*]}"; fi
 }
 
 # Cherche une source tout seul : jeu déjà installé sous Windows (partition
@@ -116,12 +120,26 @@ do_setup() {
       *.exe|*.EXE) ;;
       *) die "Source non reconnue (dossier, .exe ou .zip attendu) : $src" ;;
     esac
-    echo "    Installation silencieuse de l'installeur officiel…"
-    # Installeur NSIS : /S = silencieux, /D= dossier cible (dernier argument, sans guillemets)
-    WINEDEBUG=-all wine "$installer" /S "/D=Z:${GAME_DIR//\//\\}" || true
+    # Installeur NSIS à interface personnalisée : depuis la v3.4.7.0 il ignore
+    # le mode silencieux (/S le fait quitter sans rien installer) et installe
+    # toujours dans C:\Program Files (x86)\Naruto Online. On l'affiche donc,
+    # puis on relie ce dossier à $GAME_DIR.
+    echo "    Une fenêtre d'installation va s'ouvrir : cliquez sur « Utiliser »."
+    echo "    À la fin, le launcher s'ouvre tout seul : vous pouvez le fermer."
+    WINEDEBUG=-all wine "$installer" || true
+    WINEDEBUG=-all wineserver -w 2>/dev/null || true
     [ -n "$tmp" ] && rm -rf "$tmp"
+    if [ ! -f "$GAME_DIR/$EXE" ]; then
+      local found
+      found="$(find "$WINEPREFIX/drive_c" -name "$EXE" -not -path '*/Temp/*' -print -quit 2>/dev/null)"
+      if [ -n "$found" ]; then
+        rmdir "$GAME_DIR" 2>/dev/null || true
+        [ -e "$GAME_DIR" ] || ln -s "$(dirname "$found")" "$GAME_DIR"
+      fi
+    fi
     # L'installeur crée des raccourcis Wine en double dans le menu : on les retire
     rm -rf "$HOME/.local/share/applications/wine/Programs/Naruto Online" \
+           "$HOME/.config/menus/applications-merged/wine-Programs-Naruto Online-"*.menu \
            "$HOME/Desktop/Naruto Online.desktop" "$HOME/Bureau/Naruto Online.desktop" 2>/dev/null || true
     [ -f "$GAME_DIR/$EXE" ] || die "L'installeur n'a pas créé « $EXE » dans $GAME_DIR"
   fi
@@ -161,6 +179,7 @@ do_launch() {
   src="$(find_source)" || src="$(ask_source)" || exit 0
   [ -n "$src" ] || exit 0
   # Installation visible dans un terminal (longue : .NET 4.8), puis lancement
+  command -v konsole >/dev/null || { bash "$SELF" setup "$src" && do_run; exit; }
   exec konsole --hold -p tabtitle="Installation de Naruto Online" -e bash -c \
     "bash \"$SELF\" setup \"$src\" && { echo; echo 'Lancement du jeu…'; setsid bash \"$SELF\" run >/dev/null 2>&1 & sleep 3; exit 0; }"
 }
@@ -174,7 +193,9 @@ do_clear_cache() {
 
 do_uninstall() {
   wineserver -k 2>/dev/null || true
-  rm -rf "$WINEPREFIX" "$GAME_DIR" "$DESKTOP_FILE"
+  rm -rf "$WINEPREFIX" "$GAME_DIR" "$DESKTOP_FILE" \
+         "$HOME/.local/share/applications/wine/Programs/Naruto Online" \
+         "$HOME/.config/menus/applications-merged/wine-Programs-Naruto Online-"*.menu
   ok "Naruto Online désinstallé (préfixe, jeu, raccourci)"
 }
 

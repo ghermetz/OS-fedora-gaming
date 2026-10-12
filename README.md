@@ -190,7 +190,7 @@ Depuis la session live, l'installeur propose un **partitionnement manuel** : rie
 
 Le launcher officiel (application .NET avec Chromium et Flash intégrés) fonctionne **sous Wine, sans aucun réglage de rendu**.
 
-- Avec l'ISO ou après `install.sh`, une icône **Naruto Online** est dans le menu. Au premier clic, elle cherche l'installeur officiel (`Naruto Online_fr_….zip` ou `.exe` dans vos Téléchargements) ou le jeu sur une partition Windows. Sinon, elle demande où il se trouve, puis installe tout (environ 30 minutes, à cause de .NET 4.8) et lance le jeu.
+- Avec l'ISO ou après `install.sh`, une icône **Naruto Online** est dans le menu. Au premier clic, elle cherche l'installeur officiel (`Naruto Online_fr_….zip` ou `.exe` dans vos Téléchargements) ou le jeu sur une partition Windows. Sinon, elle demande où il se trouve, puis installe tout (5 à 30 minutes, à cause de .NET 4.8 ; dans la fenêtre de l'installeur officiel, cliquez sur « Utiliser ») et lance le jeu.
 - En ligne de commande : `apps/naruto-online.sh setup <installeur ou dossier>`, puis `apps/naruto-online.sh run`.
 
 Le projet ne contient ni le jeu ni le launcher : vous fournissez l'installeur officiel. Détails, dépannage et fausses pistes : [docs/naruto-online.md](docs/naruto-online.md). Une version indépendante, pour toutes les distributions, existe aussi : [naruto-online-linux](https://github.com/ghermetz/naruto-online-linux).

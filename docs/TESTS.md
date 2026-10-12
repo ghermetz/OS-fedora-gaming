@@ -80,12 +80,15 @@ PC : AMD Ryzen 7 3800X, Radeon RX 7600 XT (Navi 33), 32 Go, Fedora 44 sur un SSD
 | Docker à la demande | ❌ → ✅ | Docker démarrait avec le système : le réglage par socket n'était appliqué que par l'étape bureau, sautée par l'assistant (`--skip-desktop`). Fait maintenant dans l'étape WinBoat |
 | Notifications sous Plasma | ❌ → ✅ | `mako` (notifications de Niri) tentait de démarrer dans Plasma et finissait en échec. Réservé aux sessions hors KDE |
 | KVM (WinBoat) | ✅ | `/dev/kvm` accessible, SVM actif |
+| Naruto Online : installeur officiel 3.4.7.0 | ❌ → ✅ | L'installeur ignore désormais le mode silencieux (`/S` le faisait quitter en 2 s sans rien installer) et choisit son dossier. Le script l'affiche (« Utiliser ») et relie son dossier à `~/Games/Naruto Online`. Installation complète validée, .NET 4.8 en 5 minutes |
+| Naruto Online : launcher et rendu Direct3D 11 sur la Radeon | ✅ | Launcher, connexion et page du jeu affichés avec le rendu accéléré |
+| Naruto Online : chargement du jeu | ⚠️ | Bloqué à 14 % : le serveur de jeu `182.254.116.117` coupe toutes les connexions de ce réseau, même hors Wine (`curl`). Problème réseau ou serveur, pas Linux |
 | `doctor.sh` | ✅ | Nouveaux contrôles : VA-API H.264, groupe gamemode, image Waydroid, Docker à la demande, KVM, scripts lançables, services en échec, horloge en dual-boot |
 | Horloge en dual-boot | ⚠️ | L'installeur a réglé l'horloge matérielle en heure locale, comme Windows par défaut. Ne rien changer, sauf si Windows a été passé en UTC (README) |
 
 ## À tester sur le vrai matériel
 
 - Performances en jeu, VRR/FreeSync sur plusieurs écrans, LACT
-- Naruto Online sur la Radeon (Direct3D 11 via Wine)
+- Naruto Online jusqu'à l'écran de jeu (serveur injoignable le 12/10/2026)
 - WinBoat (virtualisation matérielle)
 - Waydroid dans une vraie session
