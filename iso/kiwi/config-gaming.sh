@@ -9,6 +9,9 @@ if [[ "$kiwi_profiles" == *"Gaming"* ]]; then
 	echo "fedora-gaming : configuration de l'image…"
 	export FG_IMAGE_BUILD=1
 	FG=/usr/share/fedora-gaming
+	# Les scripts peuvent perdre le bit exécutable (dépôt cloné sous Windows) :
+	# l'icône Naruto Online et l'assistant de 1re connexion les lancent directement.
+	find "$FG" -name '*.sh' -exec chmod 755 {} +
 
 	# Plasma façon Windows 11, allégé, Naruto Online préconfiguré
 	bash "$FG/desktop/setup-desktop.sh" --system

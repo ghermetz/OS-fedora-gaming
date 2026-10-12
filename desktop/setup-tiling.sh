@@ -36,6 +36,12 @@ cp "$TILING_DIR/wlogout-layout"  "$HOME/.config/wlogout/layout"
 cp "$TILING_DIR/wlogout.css"     "$HOME/.config/wlogout/style.css"
 cp "$TILING_DIR/fuzzel.ini"      "$HOME/.config/fuzzel/fuzzel.ini"
 install -m 755 "$TILING_DIR/aide-tiling.sh" "$HOME/.config/fedora-gaming/aide-tiling.sh"
+# mako est aussi un service D-Bus de notifications : à l'ouverture de Plasma,
+# il peut être lancé avant celui de KDE et échouer (unité « failed »), voire
+# prendre la place des notifications Plasma. On le réserve aux sessions hors KDE.
+mkdir -p "$HOME/.config/systemd/user/mako.service.d"
+printf '[Unit]\nConditionEnvironment=!XDG_CURRENT_DESKTOP=KDE\n' \
+  > "$HOME/.config/systemd/user/mako.service.d/hors-plasma.conf"
 # Restes d'anciennes versions (session Sway retirée, mauvais nom de config niri)
 rm -f "$HOME/.config/niri/config.kcl" "$HOME/.config/fedora-gaming/aide-sway.txt"
 

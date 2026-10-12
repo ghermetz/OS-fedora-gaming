@@ -135,6 +135,7 @@ Depuis la session live, l'installeur propose un **partitionnement manuel** : rie
    | Nouvelle | le reste | Btrfs | /home (jeux et données) |
 
    Fedora crée seul la mémoire d'échange (zram).
+6. Après l'installation, vérifiez l'horloge avec `timedatectl` : si Windows a été passé en UTC (étape 2) mais que la ligne « RTC in local TZ » vaut `yes`, lancez `sudo timedatectl set-local-rtc 0`. Si vous n'avez pas fait l'étape 2, ne changez rien : les deux systèmes sont alors en heure locale.
 
 ## 4. Le bureau
 
@@ -230,10 +231,12 @@ Le rapport détaillé, avec chaque problème trouvé et sa correction, est dans 
 - l'ISO : construction complète avec `iso/build-iso.sh` (5,4 Go), puis démarrage en session live dans une VM EFI. Le support est vérifié au démarrage, et Plasma s'ouvre en français avec la disposition Windows 11 et l'installeur.
 - l'installation depuis l'ISO dans une VM EFI : le premier essai a révélé un système qui ne démarrait pas (GRUB sans entrée Fedora, à cause d'un chemin de construction resté dans `grubenv`) ; une fois corrigé, le système démarre sur l'assistant de premier démarrage de Plasma, puis sur l'écran de connexion et la session Niri.
 
+**Testé sur un vrai PC** (Ryzen 7 3800X, Radeon RX 7600 XT, installation depuis l'ISO) : installation, bureau, assistant de fin de configuration, Vulkan, LACT, MangoHud, Wine. Sept problèmes trouvés et corrigés, détaillés dans [docs/TESTS.md](docs/TESTS.md#6-vrai-matériel--installation-depuis-liso-12-octobre-2026). L'ISO téléchargeable ci-dessus date d'avant ces corrections : après l'installation, lancez `bash doctor.sh`, qui indique pour chaque point la commande à taper.
+
 **Pas encore testé** :
-- une installation complète depuis l'**ISO reconstruite** après le correctif du démarrage (le correctif lui-même est vérifié : voir ci-dessus) ;
+- une installation depuis une **ISO reconstruite** avec les corrections du vrai PC ;
 - l'installation complète de Naruto Online depuis l'installeur officiel `.zip` (interrompue pendant le test) ;
-- les performances sur une vraie carte graphique ;
+- les performances en jeu (Steam, Proton) ;
 - le VRR ;
 - le chemin Direct3D 11 de Wine sur une vraie Radeon ;
 - WinBoat (il faut la virtualisation matérielle, que la VM n'a pas).
@@ -271,7 +274,9 @@ Les retours d'expérience (en particulier sur du vrai matériel), les signalemen
 
 **Feuille de route** :
 - [ ] Snapper et retour arrière depuis GRUB, pour revenir à l'état d'avant une mise à jour
-- [ ] Tests sur du vrai matériel (AMD, Intel ; NVIDIA à documenter)
+- [x] Test sur du vrai matériel AMD (Ryzen 3000, RX 7600 XT)
+- [ ] Reconstruire et republier l'ISO avec les corrections du 12 octobre 2026
+- [ ] Tests sur Intel et NVIDIA (pilote à documenter)
 - [x] ISO prête à télécharger (voir la section Installation)
 - [x] Dépôt séparé [naruto-online-linux](https://github.com/ghermetz/naruto-online-linux)
 

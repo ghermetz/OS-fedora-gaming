@@ -134,6 +134,13 @@ log "2/8 — Drivers AMD / Vulkan (RX 7600 XT — inclus au noyau, on vérifie)"
 if ! sudo dnf install -y --skip-unavailable mesa-dri-drivers mesa-vulkan-drivers vulkan-tools libva-utils 2>/dev/null; then
   warn "Certains paquets drivers introuvables — Fedora renomme parfois ; vérifie avec dnf search mesa"
 fi
+# Le Mesa de Fedora n'a pas le décodage matériel H.264/H.265 (brevets) : la
+# version RPM Fusion l'ajoute (vidéo fluide dans Firefox, Edge, Jellyfin…).
+# .i686 pour les jeux et applis 32 bits (Steam).
+if ! rpm -q mesa-va-drivers-freeworld >/dev/null 2>&1; then
+  sudo dnf install -y --skip-unavailable mesa-va-drivers-freeworld mesa-va-drivers-freeworld.i686 \
+    || warn "mesa-va-drivers-freeworld non installé : pas de décodage matériel H.264/H.265."
+fi
 if have vulkaninfo; then
   echo "Périphérique Vulkan détecté :"
   vulkaninfo --summary 2>/dev/null | grep -E 'deviceName|driverName' | sed 's/^/   /' || true
@@ -147,6 +154,12 @@ if ! rpm -q lact >/dev/null 2>&1; then
   sudo dnf install -y lact
 fi
 sudo systemctl enable --now lactd 2>/dev/null || true
+# Sans le groupe gamemode, GameMode n'a pas le droit (polkit) de passer le
+# processeur en mode performance pendant les jeux.
+if getent group gamemode >/dev/null && ! id -nG "$USER" | grep -qw gamemode; then
+  sudo usermod -aG gamemode "$USER"
+  warn "Ajouté au groupe gamemode — effectif après déconnexion/reconnexion."
+fi
 flat_install net.davidotek.pupgui2
 mkdir -p "$HOME/.config/MangoHud"
 cp "$SCRIPT_DIR/config/mangohud/MangoHud.conf" "$HOME/.config/MangoHud/MangoHud.conf"
@@ -205,7 +218,9 @@ else
   dnf_install waydroid
   sudo systemctl enable --now waydroid-container
 
-  if [ ! -d /var/lib/waydroid ]; then
+  # Le service crée /var/lib/waydroid (journal) dès son démarrage : c'est
+  # waydroid.cfg, écrit par « waydroid init », qui prouve qu'une image est là.
+  if [ ! -f /var/lib/waydroid/waydroid.cfg ]; then
     if ask "Télécharger l'image Android ($WAYDROID_FLAVOR, ≈1 Go) maintenant ?"; then
       sudo waydroid init -s "$WAYDROID_FLAVOR"
     else
@@ -213,7 +228,9 @@ else
     fi
   fi
 
-  if ask "Installer la traduction ARM libndk (recommandée sur CPU AMD) ?"; then
+  if [ ! -f /var/lib/waydroid/waydroid.cfg ]; then
+    warn "libndk sautée : il faut d'abord l'image Android (sudo waydroid init -s $WAYDROID_FLAVOR)."
+  elif ask "Installer la traduction ARM libndk (recommandée sur CPU AMD) ?"; then
     sudo systemctl stop waydroid-container 2>/dev/null || true
     if [ ! -d "$SRC_DIR/waydroid_script" ]; then
       git clone --depth=1 https://github.com/casualsnek/waydroid_script "$SRC_DIR/waydroid_script"
@@ -280,7 +297,9 @@ else
     fi
     sudo dnf install -y docker-ce docker-ce-cli containerd docker-buildx-plugin docker-compose-plugin
   fi
-  sudo systemctl enable --now docker.service
+  # Docker à la demande : la socket le démarre quand WinBoat s'en sert
+  sudo systemctl disable --now docker.service 2>/dev/null || true
+  sudo systemctl enable --now docker.socket
   if ! id -nG "$USER" | grep -qw docker; then
     sudo usermod -aG docker "$USER"
     warn "Ajouté au groupe docker — effectif après déconnexion/reconnexion."

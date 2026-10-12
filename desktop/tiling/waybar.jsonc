@@ -47,7 +47,7 @@
     "custom/help": {
         "format": "?",
         "tooltip-format": "Aide : raccourcis clavier (Super+F1)",
-        "on-click": "~/.config/fedora-gaming/aide-tiling.sh"
+        "on-click": "bash ~/.config/fedora-gaming/aide-tiling.sh"
     },
     "custom/power": {
         "format": "⏻",
