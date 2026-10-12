@@ -61,7 +61,7 @@ Testée d'abord sur Fedora 43, puis sur le système installé depuis l'ISO Fedor
 | Démarrage du système installé | ❌ → ✅ | GRUB n'affichait que « UEFI Firmware Settings » : la configuration de GRUB contenait un chemin de la machine de construction (`blsdir`). Corrigé dans la construction ; vérifié sur le système installé et dans la nouvelle image |
 | Assistant de premier démarrage (plasma-setup) | ✅ | Langue, clavier AZERTY, thème, fuseau horaire |
 | Construction directement sur un hôte Fedora 44 | ❌ → ✅ | Amorçage KIWI en échec (scriptlets `%sysusers`, « exit status 127 ») ; dans un conteneur Fedora 44, même version de rpm, tout passe. Le conteneur devient le mode par défaut (`FG_ISO_NATIVE=1` pour forcer l'hôte) |
-| ISO reconstruite le 12/10/2026 avec toutes les corrections | ✅ | 5,5 Go, construite en 15 min dans le conteneur ; corrections vérifiées dans l'image (scripts exécutables, assistant de 1re connexion, configuration Niri) |
+| ISO reconstruite le 12/10/2026 avec toutes les corrections | ✅ | 5,4 Go, construite en 15 min dans le conteneur, publiée sur kDrive (SHA256 `79890e25…a700a2`) ; corrections vérifiées dans l'image (scripts exécutables, assistant de 1re connexion, configuration Niri) |
 | Installation complète depuis l'ISO reconstruite | ⏳ | |
 | Assistant « terminer la configuration » (install.sh) | ⏳ | |
 

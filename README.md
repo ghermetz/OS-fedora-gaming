@@ -102,8 +102,8 @@ La construction se fait dans un conteneur Fedora 44 (podman ou docker) : directe
 
 Si vous ne voulez pas la construire vous-même, l'ISO est disponible ici :
 
-- **Lien** : <https://kdrive.infomaniak.com/app/share/577121/4a82a069-3e0a-438d-a7b5-c19bfd5d2da5> (`Fedora-Gaming-44-x86_64.iso`, 5,4 Go)
-- **SHA256** : `5be22378d9c4b37aa6bd4df595113e0c9f45eb2b2d6284adbc7876bc70a40f27`
+- **Lien** : <https://kdrive.infomaniak.com/app/share/577121/d800b233-788f-4e53-9f52-422e7e0eeb91> (`Fedora-Gaming-44-x86_64.iso`, 5,4 Go, construite le 12 octobre 2026)
+- **SHA256** : `79890e25c5a31543bdabc6c0b0ecabd5292cccf512a8a6fe02d7e629a4d700a2` ([fichier .sha256](https://kdrive.infomaniak.com/app/share/577121/4a82a069-3e0a-438d-a7b5-c19bfd5d2da5))
 
 Avant de graver l'ISO, vérifiez que le fichier n'est pas abîmé, en comparant le résultat avec la somme ci-dessus :
 
@@ -231,10 +231,10 @@ Le rapport détaillé, avec chaque problème trouvé et sa correction, est dans 
 - l'ISO : construction complète avec `iso/build-iso.sh` (5,4 Go), puis démarrage en session live dans une VM EFI. Le support est vérifié au démarrage, et Plasma s'ouvre en français avec la disposition Windows 11 et l'installeur.
 - l'installation depuis l'ISO dans une VM EFI : le premier essai a révélé un système qui ne démarrait pas (GRUB sans entrée Fedora, à cause d'un chemin de construction resté dans `grubenv`) ; une fois corrigé, le système démarre sur l'assistant de premier démarrage de Plasma, puis sur l'écran de connexion et la session Niri.
 
-**Testé sur un vrai PC** (Ryzen 7 3800X, Radeon RX 7600 XT, installation depuis l'ISO) : installation, bureau, assistant de fin de configuration, Vulkan, LACT, MangoHud, Wine. Sept problèmes trouvés et corrigés, détaillés dans [docs/TESTS.md](docs/TESTS.md#6-vrai-matériel--installation-depuis-liso-12-octobre-2026). L'ISO téléchargeable ci-dessus date d'avant ces corrections : après l'installation, lancez `bash doctor.sh`, qui indique pour chaque point la commande à taper.
+**Testé sur un vrai PC** (Ryzen 7 3800X, Radeon RX 7600 XT, installation depuis l'ISO) : installation, bureau, assistant de fin de configuration, Vulkan, LACT, MangoHud, Wine. Sept problèmes trouvés et corrigés, détaillés dans [docs/TESTS.md](docs/TESTS.md#6-vrai-matériel--installation-depuis-liso-12-octobre-2026). L'ISO téléchargeable ci-dessus a été reconstruite avec ces corrections.
 
 **Pas encore testé** :
-- une installation depuis une **ISO reconstruite** avec les corrections du vrai PC ;
+- une installation complète depuis l'**ISO reconstruite** le 12 octobre 2026 ;
 - l'installation complète de Naruto Online depuis l'installeur officiel `.zip` (interrompue pendant le test) ;
 - les performances en jeu (Steam, Proton) ;
 - le VRR ;
@@ -275,7 +275,7 @@ Les retours d'expérience (en particulier sur du vrai matériel), les signalemen
 **Feuille de route** :
 - [ ] Snapper et retour arrière depuis GRUB, pour revenir à l'état d'avant une mise à jour
 - [x] Test sur du vrai matériel AMD (Ryzen 3000, RX 7600 XT)
-- [ ] Reconstruire et republier l'ISO avec les corrections du 12 octobre 2026
+- [x] Reconstruire et republier l'ISO avec les corrections du 12 octobre 2026
 - [ ] Tests sur Intel et NVIDIA (pilote à documenter)
 - [x] ISO prête à télécharger (voir la section Installation)
 - [x] Dépôt séparé [naruto-online-linux](https://github.com/ghermetz/naruto-online-linux)
