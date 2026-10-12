@@ -28,6 +28,7 @@ set -euo pipefail
 ASSUME_YES="${ASSUME_YES:-0}"
 WAYDROID_FLAVOR="GAPPS"
 SKIP_WAYDROID=0
+WAYDROID_OTA="https://ota.waydro.id"
 WITH_EXTRAS=0
 SKIP_WINBOAT=0
 SKIP_DESKTOP=0
@@ -222,14 +223,16 @@ else
   # waydroid.cfg, écrit par « waydroid init », qui prouve qu'une image est là.
   if [ ! -f /var/lib/waydroid/waydroid.cfg ]; then
     if ask "Télécharger l'image Android ($WAYDROID_FLAVOR, ≈1 Go) maintenant ?"; then
-      sudo waydroid init -s "$WAYDROID_FLAVOR"
+      # Le paquet Fedora ne fournit pas les adresses des images (channels.cfg) :
+      # sans -c/-v, « waydroid init » s'arrête sur « You must provide 'System OTA'… »
+      sudo waydroid init -s "$WAYDROID_FLAVOR" -c "$WAYDROID_OTA/system" -v "$WAYDROID_OTA/vendor"
     else
-      warn "Image non téléchargée : lance plus tard → sudo waydroid init -s $WAYDROID_FLAVOR"
+      warn "Image non téléchargée : lance plus tard → sudo waydroid init -s $WAYDROID_FLAVOR -c $WAYDROID_OTA/system -v $WAYDROID_OTA/vendor"
     fi
   fi
 
   if [ ! -f /var/lib/waydroid/waydroid.cfg ]; then
-    warn "libndk sautée : il faut d'abord l'image Android (sudo waydroid init -s $WAYDROID_FLAVOR)."
+    warn "libndk sautée : il faut d'abord l'image Android (sudo waydroid init -s $WAYDROID_FLAVOR -c $WAYDROID_OTA/system -v $WAYDROID_OTA/vendor)."
   elif ask "Installer la traduction ARM libndk (recommandée sur CPU AMD) ?"; then
     sudo systemctl stop waydroid-container 2>/dev/null || true
     if [ ! -d "$SRC_DIR/waydroid_script" ]; then

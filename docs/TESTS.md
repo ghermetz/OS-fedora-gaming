@@ -76,7 +76,7 @@ PC : AMD Ryzen 7 3800X, Radeon RX 7600 XT (Navi 33), 32 Go, Fedora 44 sur un SSD
 | Vulkan (RADV), LACT, MangoHud, Wine 11 | ✅ | RX 7600 XT reconnue par RADV et LACT ; `vkcube` avec MangoHud |
 | Décodage vidéo matériel H.264/H.265 | ❌ → ✅ | Absent : le Mesa de Fedora ne l'a pas. `install.sh` installe maintenant `mesa-va-drivers-freeworld` (RPM Fusion) |
 | GameMode | ❌ → ✅ | `gamemoded -t` : le processeur restait en `powersave`, car l'utilisateur n'était pas dans le groupe `gamemode` (règle polkit). `install.sh` l'y ajoute |
-| Waydroid | ❌ → ✅ | Image Android jamais téléchargée : le service crée `/var/lib/waydroid` en démarrant, et le script prenait ce dossier pour la preuve d'une image. On teste maintenant `waydroid.cfg` (aussi dans `doctor.sh`) |
+| Waydroid | ❌ → ✅ | Image Android jamais téléchargée : le service crée `/var/lib/waydroid` en démarrant, et le script prenait ce dossier pour la preuve d'une image. On teste maintenant `waydroid.cfg` (aussi dans `doctor.sh`). Ensuite, `waydroid init` échouait (« You must provide 'System OTA' and 'Vendor OTA' URLs ») : le paquet Fedora 44 ne fournit pas les adresses des images. `install.sh` les passe maintenant avec `-c` et `-v` |
 | Docker à la demande | ❌ → ✅ | Docker démarrait avec le système : le réglage par socket n'était appliqué que par l'étape bureau, sautée par l'assistant (`--skip-desktop`). Fait maintenant dans l'étape WinBoat |
 | Notifications sous Plasma | ❌ → ✅ | `mako` (notifications de Niri) tentait de démarrer dans Plasma et finissait en échec. Réservé aux sessions hors KDE |
 | KVM (WinBoat) | ✅ | `/dev/kvm` accessible, SVM actif |

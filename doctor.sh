@@ -91,7 +91,7 @@ if rpm -q waydroid >/dev/null 2>&1; then
   if [ -f /var/lib/waydroid/waydroid.cfg ]; then
     ok "image Android présente"
   else
-    note "pas d'image Android → sudo waydroid init -s GAPPS"
+    note "pas d'image Android → sudo waydroid init -s GAPPS -c https://ota.waydro.id/system -v https://ota.waydro.id/vendor"
   fi
 else
   bad "waydroid absent"
