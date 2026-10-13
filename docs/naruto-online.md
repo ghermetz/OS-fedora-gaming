@@ -5,6 +5,8 @@ Naruto Online se lance avec **le launcher Windows officiel, dans Wine**. Aucune 
 > ✅ **Validé le 10/10/2026** dans la VM de test (Fedora 43 KDE, Wine 11 Staging) : le launcher démarre, la connexion fonctionne, le jeu Flash charge à 100 % et l'écran de jeu répond.
 >
 > ✅ **Testé le 12/10/2026 sur un vrai PC** (Fedora 44, Radeon RX 7600 XT) avec l'installeur officiel 3.4.7.0 : installation complète, launcher, connexion et jeu, fluide avec DXVK. Un premier essai est resté bloqué à 14 % pendant qu'un serveur du jeu refusait les connexions ; c'était passager (voir *Dépannage*).
+>
+> ✅ **Testé le 13/10/2026 sous la session Niri** (xwayland-satellite, deux écrans) : souris corrigée (elle était décalée de ~30 px), et deux comptes en jeu en même temps une fois le contournement du blocage à 14 % activé (voir *Dépannage*).
 
 ## Installation (une seule fois, 5 à 30 min)
 
@@ -37,7 +39,7 @@ Le premier chargement du jeu est long, comme le signale le launcher lui-même.
 
 | Symptôme | Solution |
 |---|---|
-| Le chargement du jeu reste bloqué (par exemple à 14 %) et recommence | Le jeu n'arrive pas à joindre un de ses serveurs : `debug.log`, dans le dossier du jeu, contient alors `IO_ERROR`. Regarde la ligne juste avant : si elle cite `http://182.254.116.117/crossdomain.xml`, c'est le service DNS de Tencent (DNSPod HTTPDNS) qui coupe les connexions, alors que ses autres adresses (`182.254.116.116`, `119.29.29.29`) répondent (vérification : `curl http://182.254.116.117/d?dn=res.huoying.qq.com`). Contournement, pas encore validé en jeu : `sudo bash apps/naruto-reseau.sh activer` redirige cette adresse vers `.116` (règle firewalld permanente ; `desactiver` pour annuler, `etat` pour vérifier). Sinon, vérifie si le même serveur charge sous Windows ou sur un autre réseau, ou essaie un autre serveur de jeu |
+| Le chargement du jeu reste bloqué (par exemple à 14 %) et recommence, parfois sur un seul de deux comptes ouverts | Le jeu n'arrive pas à joindre un de ses serveurs : `debug.log`, dans le dossier du jeu, contient alors `IO_ERROR`. Une cause fréquente : au chargement, le jeu interroge le service DNS de Tencent à l'adresse `182.254.116.117`, et toute requête qui porte ce nom est coupée en route (alors que le même service répond sous ses autres adresses). **Correctif, validé le 13/10/2026 avec deux comptes en jeu en même temps** : `bash apps/naruto-reseau.sh activer` (sans sudo : le mot de passe est demandé pour le pare-feu). Il installe un petit relais local (service utilisateur `naruto-httpdns`) et une règle firewalld qui lui envoie ces requêtes ; `etat` pour vérifier, `desactiver` pour tout retirer. Si le blocage persiste, le serveur de jeu lui-même (port 6001) peut être indisponible : réessaie plus tard ou essaie un autre serveur |
 | Souris décalée (les clics tombent ~30 px trop bas), seulement sous niri | niri ne dessine pas de barre de titre aux fenêtres X11, mais Wine en suppose une. Le script règle `Decorated=N` dans le préfixe au lancement suivant ; ferme puis relance le jeu |
 | Affichage saccadé ou lent | Vérifie que DXVK est installé : relance `./apps/naruto-online.sh setup` (le jeu fermé) |
 | La page reste blanche | `./apps/naruto-online.sh clear-cache`, puis relance le jeu (tu devras te reconnecter) |
