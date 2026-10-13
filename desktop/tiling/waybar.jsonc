@@ -1,57 +1,21 @@
-// fedora-gaming — barre des tâches waybar « façon Windows » (session Niri)
-// Gauche : Démarrer · Vue des tâches · fenêtres ouvertes
-// Droite : zone de notification · volume · aide · éteindre · heure et date
-{
-    "layer": "top",
-    "position": "bottom",
-    "height": 42,
-    "modules-left": ["custom/start", "custom/taskview", "wlr/taskbar"],
-    "modules-center": [],
-    "modules-right": ["tray", "pulseaudio", "custom/help", "custom/power", "clock"],
-
-    "custom/start": {
-        "format": "⊞  Démarrer",
-        "tooltip-format": "Applications (Super+Espace)",
-        "on-click": "fuzzel"
-    },
-    "custom/taskview": {
-        "format": "⧉",
-        "tooltip-format": "Vue des tâches : toutes les fenêtres et les bureaux (Super+Tab)",
-        // open- et non toggle- : le clic déclenche deux fois (appui + relâchement),
-        // une bascule refermerait aussitôt la vue
-        "on-click": "niri msg action open-overview"
-    },
-    "wlr/taskbar": {
-        "format": "{icon} {title:.22}",
-        "icon-size": 22,
-        "tooltip-format": "{title}",
-        "on-click": "activate",
-        "on-click-middle": "close"
-    },
-    "clock": {
-        "format": "{:%H:%M\n%d/%m/%Y}",
-        "justify": "center",
-        "tooltip-format": "{:%A %d %B %Y}"
-    },
-    "pulseaudio": {
-        "format": "🔊 {volume}%",
-        "format-muted": "🔇 muet",
-        "tooltip-format": "Clic : mixeur · clic droit : couper le son · molette : volume",
-        "on-click": "pavucontrol",
-        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
-    },
-    "tray": {
-        "icon-size": 18,
-        "spacing": 8
-    },
-    "custom/help": {
-        "format": "?",
-        "tooltip-format": "Aide : raccourcis clavier (Super+F1)",
-        "on-click": "bash ~/.config/fedora-gaming/aide-tiling.sh"
-    },
-    "custom/power": {
-        "format": "⏻",
-        "tooltip-format": "Verrouiller, se déconnecter, redémarrer, éteindre (Ctrl+Alt+Suppr)",
-        "on-click": "wlogout -p layer-shell -b 5 -T 330 -B 330"
+// fedora-gaming — barre des tâches « façon Zorin OS » (session Niri)
+//   Gauche : menu Démarrer · vue des tâches · applis épinglées | fenêtres ouvertes
+//   Droite : média · perfs · GameMode · mises à jour · zone de notification ·
+//            éclairage nocturne · anti-veille · volume · éteindre · heure ·
+//            notifications · « Afficher le bureau »
+// Les modules sont définis dans modules.jsonc. Pour une barre allégée sur un
+// second écran, ajouter un 2e bloc avec "output" (voir « niri msg outputs »).
+[
+    {
+        "include": "~/.config/waybar/modules.jsonc",
+        "layer": "top",
+        "position": "bottom",
+        "height": 48,
+        "spacing": 2,
+        "modules-left": ["image#start", "custom/taskview", "group/epingles", "wlr/taskbar"],
+        "modules-center": [],
+        "modules-right": ["mpris", "custom/perf", "custom/gamemode", "custom/maj", "tray",
+                          "custom/nuit", "idle_inhibitor", "pulseaudio", "custom/power",
+                          "clock", "custom/notification", "custom/desktop"]
     }
-}
+]

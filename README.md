@@ -31,7 +31,7 @@ Un script (ou une ISO) transforme une Fedora KDE fraîchement installée en syst
 - **Plasma façon Windows 11** : barre des tâches centrée avec menu Démarrer et applis épinglées, thème sombre, Alt+Tab en vignettes, ouverture en un clic.
 - **Un système allégé** : sans la suite de messagerie KDE ni son serveur de base de données (Akonadi + MariaDB), sans rapporteurs de plantage, sans indexation permanente des fichiers. Docker ne démarre que quand on en a besoin.
 - **Le jeu prêt à l'emploi** : Steam, GameMode, MangoHud, Gamescope, Wine, Lutris, Heroic, Bottles, ProtonUp-Qt, LACT pour les cartes AMD (ventilateurs, overclocking).
-- **Une session légère en bonus**, Niri, réglée pour ressembler à Windows et s'utiliser sans rien apprendre (bouton Démarrer, vue des tâches, Alt+Tab, raccourcis Windows, aide intégrée).
+- **Une session légère en bonus**, Niri, réglée pour ressembler à Windows et s'utiliser sans rien apprendre (menu Démarrer façon Mint/Zorin, barre des tâches façon Zorin OS, vue des tâches, Alt+Tab, raccourcis Windows, aide intégrée).
 - **Naruto Online préconfiguré** : une icône dans le menu installe le launcher officiel au premier clic.
 - **Le reste du quotidien** : Discord (Vesktop), Netflix, Jellyfin, LibreOffice, Thunderbird, VS Code, Android avec Waydroid, applis Windows avec WinBoat.
 
@@ -146,28 +146,38 @@ Depuis la session live, l'installeur propose un **partitionnement manuel** : rie
 - Réglages jeu : *tearing* autorisé en plein écran (utile avec le VRR/FreeSync), souris sans accélération.
 - C'est un thème global Plasma (« Fedora Gaming (Windows 11) ») : on peut le réappliquer ou en changer dans *Paramètres système → Thème global*.
 
-### Session bonus : Niri, simple et façon Windows
+### Session bonus : Niri, simple et façon Windows / Zorin OS
 
-À choisir sur l'écran de connexion (en bas à gauche, « Session de bureau »). Niri est léger (environ 0,9 Go de mémoire utilisée dans nos tests, contre environ 2 Go pour Plasma allégé) et il est réglé ici pour se comporter le plus possible comme Windows :
+À choisir sur l'écran de connexion (en bas à gauche, « Session de bureau »). Niri est léger (environ 0,9 Go de mémoire utilisée dans nos tests, contre environ 2 Go pour Plasma allégé) et il est réglé ici pour se comporter le plus possible comme Windows, avec l'allure de Zorin OS (barre sombre translucide, accent bleu, police Inter, ombres et coins arrondis, fond d'écran bleu) :
 
-- **Barre des tâches** comme Windows 10 : à gauche, bouton **⊞ Démarrer** (menu d'applications avec recherche), bouton **⧉ Vue des tâches** et fenêtres ouvertes cliquables ; à droite, zone de notification (réseau…), volume (un clic ouvre le mixeur), aide **?**, extinction **⏻** et l'heure.
+- **Barre des tâches** façon Zorin OS. À gauche : le **menu Démarrer**, le bouton **vue des tâches**, les **applis épinglées** (Firefox, Fichiers, Steam, Lutris ; un clic affiche l'appli si elle est déjà ouverte) et les **fenêtres ouvertes** en icônes, soulignées en bleu pour l'active. À droite : le média en cours, la charge du processeur et de la carte graphique (températures au survol), la manette de **GameMode** quand un jeu l'active, le nombre de **mises à jour**, la zone de notification, l'**éclairage nocturne**, l'anti-veille (pour un film), le volume, l'extinction, l'heure (**calendrier** au survol), les **notifications** et une fine bande **« Afficher le bureau »**.
+- **Menu Démarrer façon Linux Mint / Zorin OS** : recherche instantanée (taper directement), catégories à gauche (il suffit de les survoler), applis avec leur description, **Favoris** (clic droit sur une appli pour l'ajouter ou la retirer), **Récents**, dossiers, et boutons verrouiller / se déconnecter / éteindre. Clic droit sur le bouton : menu rapide façon Win+X.
+- **Centre de notifications** (SwayNotificationCenter) avec « Ne pas déranger », le média, le volume et des boutons rapides ; indicateur de volume à l'écran avec les touches multimédia.
 - **Les fenêtres s'ouvrent en grand**, comme une fenêtre agrandie sous Windows. **Alt+Tab** affiche le sélecteur avec aperçus. Les applications gardent leur barre de titre, avec le bouton de fermeture et le bouton d'agrandissement.
 - **Raccourcis Windows** :
 
   | Action | Raccourci |
   |---|---|
-  | Menu Démarrer | Super+Espace (ou le bouton ⊞) |
-  | Vue des tâches (toutes les fenêtres, bureaux) | Super+Tab (ou le bouton ⧉, ou la souris dans le coin en haut à gauche) |
+  | Menu Démarrer / menu rapide | Super+Espace (ou le bouton) / Super+X (ou clic droit) |
+  | Vue des tâches (toutes les fenêtres, bureaux) | Super+Tab (ou le bouton, ou la souris dans le coin en haut à gauche) |
   | Changer de fenêtre | Alt+Tab |
   | Fermer | Alt+F4 |
+  | Afficher le bureau (réappuyer pour revenir) | Super+D |
+  | Historique du presse-papiers | Super+V |
+  | Notifications | Super+N |
   | Agrandir / moitié d'écran | Super+↑ / Super+↓ |
+  | Fenêtre flottante | Super+Maj+V |
+  | Fenêtre vers l'écran voisin | Super+Maj+← / → |
   | Bureau virtuel suivant / précédent | Ctrl+Super+→ / Ctrl+Super+← |
   | Explorateur, paramètres, verrouiller | Super+E, Super+I, Super+L |
   | Capture d'une zone / de l'écran | Super+Maj+S / Maj+Impr |
   | Éteindre, redémarrer, se déconnecter | Ctrl+Alt+Suppr (ou le bouton ⏻) |
-  | Aide (en français) | Super+F1 (ou le bouton ?) |
+  | Lancement rapide au clavier | Alt+F2 |
+  | Aide (en français) | Super+F1 |
 
-- Particularité de Niri : les fenêtres sont rangées côte à côte sur une bande qui défile, plutôt que superposées. Super+← / → passe d'une fenêtre à sa voisine, et Super+↓ met deux fenêtres côte à côte. Il n'y a pas de « réduire » : on passe d'une fenêtre à l'autre avec la barre des tâches ou Alt+Tab.
+- Particularité de Niri : les fenêtres sont rangées côte à côte sur une bande qui défile, plutôt que superposées. Super+← / → passe d'une fenêtre à sa voisine, et Super+↓ met deux fenêtres côte à côte. Il n'y a pas de « réduire » : on passe d'une fenêtre à l'autre avec la barre des tâches ou Alt+Tab, et Super+D affiche le bureau.
+- **Plusieurs écrans** : l'ordre des écrans se règle dans `~/.config/niri/config.kdl` (exemple commenté). Steam, Wine et les jeux s'ouvrent sur l'écran « principal » : par défaut celui de gauche, ou celui dont on écrit un bout du nom (par exemple `AOC`) dans `~/.config/fedora-gaming/ecran-principal`.
+- Les applis KDE (Dolphin, Konsole…) gardent leur thème Breeze sombre, leurs icônes et le menu « Ouvrir avec » hors de Plasma.
 
 ## 5. Logiciels installés
 

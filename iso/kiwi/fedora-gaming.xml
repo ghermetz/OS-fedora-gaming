@@ -79,6 +79,17 @@
 		<package name="polkit-kde"/>
 		<package name="fontawesome-6-free-fonts"/>
 		<package name="google-noto-emoji-fonts"/>
+		<!-- Barre et menu façon Zorin OS : notifications, presse-papiers, éclairage
+		     nocturne, police Inter, menu Démarrer (GTK + layer-shell), modules -->
+		<package name="SwayNotificationCenter"/>
+		<package name="cliphist"/>
+		<package name="wlsunset"/>
+		<package name="rsms-inter-fonts"/>
+		<package name="jq"/>
+		<package name="playerctl"/>
+		<package name="gtk-layer-shell"/>
+		<package name="python3-gobject"/>
+		<package name="xrandr"/>
 		<!-- Outils -->
 		<package name="git"/>
 		<package name="btop"/>

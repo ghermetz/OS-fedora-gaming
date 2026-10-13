@@ -1,0 +1,27 @@
+/* fedora-gaming — centre de notifications : thème par défaut + accent bleu */
+@import url("file:///etc/xdg/swaync/style.css");
+
+* { font-family: "Inter", "Noto Sans", "Font Awesome 6 Free"; }
+
+.control-center {
+    background: rgba(30, 32, 38, 0.96);
+    border: 1px solid rgba(21, 166, 240, 0.45);
+    border-radius: 14px;
+}
+.floating-notifications .notification-row .notification-background {
+    margin-bottom: 4px;
+}
+.notification-row .notification-background .notification {
+    background: rgba(30, 32, 38, 0.96);
+    border: 1px solid rgba(21, 166, 240, 0.45);
+    border-radius: 12px;
+}
+.widget-title > button { border-radius: 8px; }
+.widget-dnd > switch:checked { background: #15a6f0; }
+.widget-buttons-grid > flowbox > flowboxchild > button {
+    border-radius: 10px;
+    min-height: 44px;
+    font-size: 16px;
+}
+.widget-buttons-grid > flowbox > flowboxchild > button:hover { background: rgba(21, 166, 240, 0.45); }
+.widget-volume trough highlight, .widget-volume highlight { background: #15a6f0; }

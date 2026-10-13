@@ -1,5 +1,5 @@
-{ "label" : "lock",     "action" : "swaylock -f -c 111116",              "text" : "Verrouiller",   "keybind" : "v" }
-{ "label" : "logout",   "action" : "loginctl terminate-user $USER",     "text" : "Se déconnecter", "keybind" : "d" }
-{ "label" : "suspend",  "action" : "systemctl suspend",                 "text" : "Veille",        "keybind" : "s" }
-{ "label" : "reboot",   "action" : "systemctl reboot",                  "text" : "Redémarrer",    "keybind" : "r" }
-{ "label" : "shutdown", "action" : "systemctl poweroff",                "text" : "Éteindre",      "keybind" : "e" }
+{ "label" : "lock",     "action" : "swaylock -f",                                    "text" : "Verrouiller",    "keybind" : "v" }
+{ "label" : "logout",   "action" : "niri msg action quit --skip-confirmation",       "text" : "Se déconnecter", "keybind" : "d" }
+{ "label" : "suspend",  "action" : "systemctl suspend",                              "text" : "Veille",         "keybind" : "s" }
+{ "label" : "reboot",   "action" : "systemctl reboot",                               "text" : "Redémarrer",     "keybind" : "r" }
+{ "label" : "shutdown", "action" : "systemctl poweroff",                             "text" : "Éteindre",       "keybind" : "e" }

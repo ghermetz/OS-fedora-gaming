@@ -1,0 +1,169 @@
+// fedora-gaming — modules de la barre des tâches (inclus par config.jsonc)
+{
+    // ── Menu (clic : applications · clic droit : menu rapide Win+X) ─────────
+    "image#start": {
+        "path": "/usr/share/icons/Papirus/48x48/apps/start-here-fedora.svg",
+        "size": 28,
+        "on-click": "~/.config/fedora-gaming/menu-demarrer.py",
+        "on-click-right": "~/.config/fedora-gaming/menu-windows.sh"
+    },
+    "custom/taskview": {
+        "format": "",
+        "tooltip-format": "Vue des tâches : toutes les fenêtres et les bureaux (Super+Tab)",
+        // open- et non toggle- : le clic déclenche deux fois (appui + relâchement),
+        // une bascule refermerait aussitôt la vue
+        "on-click": "niri msg action open-overview"
+    },
+
+    // ── Applis épinglées : affiche la fenêtre si l'appli est déjà ouverte ───
+    "group/epingles": {
+        "orientation": "horizontal",
+        "modules": ["image#firefox", "image#fichiers", "image#steam", "image#lutris"]
+    },
+    "image#firefox": {
+        "path": "/usr/share/icons/Papirus/48x48/apps/firefox.svg",
+        "size": 26,
+        "on-click": "~/.config/fedora-gaming/lancer.sh firefox firefox",
+        "on-click-middle": "firefox --new-window"
+    },
+    "image#fichiers": {
+        "path": "/usr/share/icons/Papirus/48x48/apps/org.kde.dolphin.svg",
+        "size": 26,
+        "on-click": "~/.config/fedora-gaming/lancer.sh dolphin dolphin",
+        "on-click-middle": "dolphin"
+    },
+    "image#steam": {
+        "path": "/usr/share/icons/Papirus/48x48/apps/steam.svg",
+        "size": 26,
+        "on-click": "~/.config/fedora-gaming/lancer.sh '^steam$' steam"
+    },
+    "image#lutris": {
+        "path": "/usr/share/icons/Papirus/48x48/apps/lutris.svg",
+        "size": 26,
+        "on-click": "~/.config/fedora-gaming/lancer.sh lutris lutris"
+    },
+
+    // ── Fenêtres ouvertes : icônes seules, trait bleu sous l'appli active ───
+    "wlr/taskbar": {
+        "format": "{icon}",
+        "icon-size": 28,
+        "icon-theme": "Papirus-Dark",
+        // applis web (Edge) : app-id → nom du raccourci .desktop, pour retrouver l'icône
+        "app_ids-mapping": { "msedge-www.netflix.com__-Default": "netflix" },
+        "tooltip-format": "{title}\nClic milieu : fermer",
+        "on-click": "activate",
+        "on-click-middle": "close"
+    },
+
+    // ── Zone de droite ───────────────────────────────────────────────────────
+    "mpris": {
+        "format": "{status_icon}  {dynamic}",
+        "dynamic-order": ["title", "artist"],
+        "dynamic-len": 28,
+        "status-icons": { "playing": "", "paused": "", "stopped": "" },
+        "tooltip-format": "{player} : {title} — {artist}\nClic : lecture/pause · clic droit : suivant",
+        "on-click": "playerctl play-pause",
+        "on-click-right": "playerctl next"
+    },
+    "custom/perf": {
+        "exec": "~/.config/fedora-gaming/perf.sh",
+        "return-type": "json",
+        "interval": 3,
+        "on-click": "plasma-systemmonitor"
+    },
+    "custom/gamemode": {
+        "exec": "~/.config/fedora-gaming/gamemode.sh",
+        "return-type": "json",
+        "interval": 5
+    },
+    "custom/maj": {
+        "exec": "~/.config/fedora-gaming/mises-a-jour.sh",
+        "return-type": "json",
+        "interval": 3600,
+        "signal": 8,
+        "on-click": "plasma-discover --mode update; pkill -RTMIN+8 waybar"
+    },
+    "tray": {
+        "icon-size": 18,
+        "spacing": 10
+    },
+    "custom/nuit": {
+        "exec": "~/.config/fedora-gaming/nuit.sh etat",
+        "exec-if": "command -v wlsunset",
+        "return-type": "json",
+        "interval": "once",
+        "signal": 9,
+        "on-click": "~/.config/fedora-gaming/nuit.sh"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": { "activated": "", "deactivated": "" },
+        "tooltip-format-activated": "Mise en veille bloquée (film, présentation…)\nClic : rétablir",
+        "tooltip-format-deactivated": "Mise en veille automatique normale\nClic : l'empêcher"
+    },
+    "pulseaudio": {
+        "format": "{icon}  {volume}%",
+        "format-muted": "",
+        "format-icons": { "default": ["", "", ""] },
+        "scroll-step": 5,
+        "max-volume": 100,
+        "tooltip-format": "{desc}\nClic : mixeur · clic droit : couper le son · molette : volume",
+        "on-click": "pavucontrol",
+        "on-click-right": "~/.config/fedora-gaming/volume.sh muet"
+    },
+    "custom/power": {
+        "format": "",
+        "tooltip-format": "Verrouiller, se déconnecter, redémarrer, éteindre (Ctrl+Alt+Suppr)\nClic droit : menu rapide",
+        "on-click": "wlogout -p layer-shell -b 5 -T 330 -B 330",
+        "on-click-right": "~/.config/fedora-gaming/menu-windows.sh"
+    },
+    "clock": {
+        "format": "{:%H:%M\n%d/%m/%Y}",
+        "justify": "center",
+        "locale": "fr_FR.UTF-8",
+        "tooltip-format": "<big>{:%A %d %B %Y}</big>\n\n<tt>{calendar}</tt>",
+        "calendar": {
+            "mode": "month",
+            "weeks-pos": "left",
+            "on-scroll": 1,
+            "format": {
+                "months": "<span color='#ffffff'><b>{}</b></span>",
+                "weeks": "<span color='#6b7280'>{}</span>",
+                "weekdays": "<span color='#5ec8ff'><b>{}</b></span>",
+                "today": "<span background='#15a6f0' color='#ffffff'><b>{}</b></span>"
+            }
+        },
+        "actions": {
+            "on-scroll-up": "shift_down",
+            "on-scroll-down": "shift_up",
+            "on-click-right": "mode"
+        }
+    },
+    // Centre de notifications (SwayNotificationCenter) : rien ne s'affiche s'il n'est pas installé
+    "custom/notification": {
+        "exec": "swaync-client -swb",
+        "exec-if": "command -v swaync-client",
+        "return-type": "json",
+        "escape": true,
+        "format": "{icon}",
+        "format-icons": {
+            "none": "",
+            "notification": "<span foreground='#5ec8ff'><sup>●</sup></span>",
+            "dnd-none": "",
+            "dnd-notification": "<span foreground='#5ec8ff'><sup>●</sup></span>",
+            "inhibited-none": "",
+            "inhibited-notification": "<span foreground='#5ec8ff'><sup>●</sup></span>",
+            "dnd-inhibited-none": "",
+            "dnd-inhibited-notification": "<span foreground='#5ec8ff'><sup>●</sup></span>"
+        },
+        "tooltip-format": "Notifications (Super+N)\nClic droit : ne pas déranger",
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw"
+    },
+    // Fine bande tout à droite, comme sous Windows
+    "custom/desktop": {
+        "format": " ",
+        "tooltip-format": "Afficher le bureau (Super+D)",
+        "on-click": "~/.config/fedora-gaming/bureau.sh"
+    }
+}

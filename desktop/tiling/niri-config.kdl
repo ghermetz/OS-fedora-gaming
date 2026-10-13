@@ -1,10 +1,11 @@
-// ═══ fedora-gaming — Niri « simple, façon Windows » ═══════════════════════
+// ═══ fedora-gaming — Niri « simple, façon Windows / Zorin OS » ═══════════════════════
 // Niri range les fenêtres côte à côte sur une bande qui défile. Ici, il est
 // réglé pour se comporter le plus possible comme Windows :
 //   • chaque fenêtre s'ouvre en grand (comme « agrandie ») ;
 //   • Alt+Tab = sélecteur avec aperçus ; Super+Tab = vue des tâches ;
 //   • barre des tâches en bas : Démarrer, vue des tâches, fenêtres, heure ;
-//   • raccourcis Windows (Super+E, Super+L, Super+I, Alt+F4, Ctrl+Alt+Suppr…).
+//   • raccourcis Windows (Super+E, Super+L, Super+I, Super+D, Super+V, Super+X,
+//     Alt+F4, Ctrl+Alt+Suppr…).
 // Super+F1 (ou le bouton « ? » de la barre) affiche l'aide en français.
 // Les applis X11 (Steam, Wine…) passent par xwayland-satellite, lancé
 // automatiquement ; l'applet réseau vient du démarrage automatique (nm-applet).
@@ -27,16 +28,48 @@ input {
     focus-follows-mouse max-scroll-amount="0%"
 }
 
+// ── Écrans ─────────────────────────────────────────────────────────────
+// Par défaut, niri place les écrans tout seul. Pour fixer leur ordre (noms
+// exacts : « niri msg outputs »), par exemple deux écrans côte à côte :
+// output "PNP(AOC) 2260WG5 XXXXXXXX" {
+//     position x=0 y=0
+//     focus-at-startup
+// }
+// output "LG Electronics 2D FHD LG TV XXXXXXXX" {
+//     position x=1920 y=0
+// }
+// Écran principal pour Steam, Wine et les jeux : ~/.config/fedora-gaming/ecran-principal
+
 // Aide-mémoire affiché au premier démarrage de la session
 hotkey-overlay {
     skip-at-startup false
 }
 
+// Curseur identique partout (applis KDE, GTK, X11) ; masqué pendant la frappe
+cursor {
+    xcursor-theme "breeze_cursors"
+    xcursor-size 24
+    hide-when-typing
+}
+
+// Applis KDE (Dolphin, Konsole…) hors Plasma : thème Breeze sombre, icônes
+// et menu « Ouvrir avec » complets ; applis Electron en Wayland natif.
+environment {
+    QT_QPA_PLATFORMTHEME "kde"
+    XDG_MENU_PREFIX "plasma-"
+    ELECTRON_OZONE_PLATFORM_HINT "auto"
+}
+
 spawn-at-startup "waybar"
-spawn-at-startup "mako"
-spawn-at-startup "swaybg" "-m" "fill" "-i" "/usr/share/wallpapers/Next/contents/images/5120x2880.png"
-spawn-at-startup "/usr/lib/polkit-kde-authentication-agent-1"
-spawn-at-startup "swayidle" "-w" "timeout" "600" "swaylock -f -c 111116" "timeout" "900" "niri msg action power-off-monitors" "before-sleep" "swaylock -f -c 111116"
+// Centre de notifications façon Windows s'il est installé, sinon mako
+spawn-sh-at-startup "command -v swaync >/dev/null && exec swaync || exec mako"
+// Historique du presse-papiers (Super+V) s'il est installé
+spawn-sh-at-startup "command -v cliphist >/dev/null && exec wl-paste --watch cliphist -max-items 50 store"
+// L'écran AOC = écran principal pour Steam et les jeux (X11), même après un redémarrage de Xwayland
+spawn-at-startup "~/.config/fedora-gaming/ecran-principal-veille.sh"
+spawn-at-startup "swaybg" "-m" "fill" "-i" "/usr/share/backgrounds/fedora-gaming/fond-zorin-bleu.jpg"
+spawn-at-startup "/usr/libexec/kf6/polkit-kde-authentication-agent-1"
+spawn-at-startup "swayidle" "-w" "timeout" "600" "swaylock -f" "timeout" "900" "niri msg action power-off-monitors" "before-sleep" "swaylock -f"
 
 layout {
     gaps 6
@@ -52,17 +85,25 @@ layout {
     }
     focus-ring {
         width 2
-        active-color "#e50914"
-        inactive-color "#3a3a46"
+        active-color "#15a6f0"
+        inactive-color "#2c3038"
     }
     border { off; }
+    // Ombres douces sous les fenêtres, comme sur Zorin OS
+    shadow {
+        on
+        softness 30
+        spread 4
+        offset x=0 y=6
+        color "#00000070"
+    }
 }
 
 // Alt+Tab : le sélecteur de fenêtres avec aperçus, comme sous Windows
 recent-windows {
     open-delay-ms 100
     highlight {
-        active-color "#e50914ff"
+        active-color "#15a6f0ff"
         corner-radius 12
     }
     binds {
@@ -87,7 +128,7 @@ layer-rule {
 screenshot-path "~/Images/Captures/%Y-%m-%d_%H-%M-%S.png"
 
 window-rule {
-    geometry-corner-radius 8
+    geometry-corner-radius 12
     clip-to-geometry true
 }
 // Les jeux et Steam s'ouvrent en plein écran de travail
@@ -99,22 +140,40 @@ window-rule {
 // Petites fenêtres utilitaires et boîtes de dialogue : flottantes, centrées
 window-rule {
     match app-id="pavucontrol"
+    match app-id="org.pulseaudio.pavucontrol"
     match app-id="nm-connection-editor"
     match app-id="org.kde.kdialog"
     match app-id="org.kde.polkit-kde-authentication-agent-1"
-    match title="^(Ouvrir|Enregistrer|Choisir|Sélectionner).*"
+    match app-id="org.kde.kcalc"
+    match app-id="solaar"
+    match app-id="xdg-desktop-portal-gtk"
+    match app-id="org.freedesktop.impl.portal.desktop.kde"
+    match title="^(Ouvrir|Enregistrer|Choisir|Sélectionner|Propriétés).*"
     open-floating true
+}
+// Vidéo en incrustation (Firefox, Chrome…) : petite, en bas à droite, comme sous Windows
+window-rule {
+    match title="^(Incrustation vidéo|Picture-in-Picture|Picture in picture)$"
+    open-floating true
+    default-column-width { fixed 480; }
+    default-window-height { fixed 270; }
+    default-floating-position x=16 y=16 relative-to="bottom-right"
 }
 
 binds {
     // ── Lancer ──────────────────────────────────────────────────────────
-    Mod+Space hotkey-overlay-title="Démarrer : applications" { spawn "fuzzel"; }
-    Mod+D hotkey-overlay-title=null { spawn "fuzzel"; }
+    Mod+Space hotkey-overlay-title="Menu Démarrer" { spawn "~/.config/fedora-gaming/menu-demarrer.py"; }
+    Alt+F2 hotkey-overlay-title="Lancement rapide (taper le nom d'une appli)" { spawn "fuzzel"; }
+    Mod+D hotkey-overlay-title="Afficher le bureau (réappuyer pour revenir)" { spawn "~/.config/fedora-gaming/bureau.sh"; }
+    Mod+X hotkey-overlay-title="Menu rapide (comme Win+X)" { spawn "~/.config/fedora-gaming/menu-windows.sh"; }
+    Mod+N hotkey-overlay-title="Centre de notifications" { spawn-sh "swaync-client -t -sw"; }
+    Mod+A hotkey-overlay-title=null { spawn-sh "swaync-client -t -sw"; }
+    Mod+V hotkey-overlay-title="Historique du presse-papiers" { spawn "~/.config/fedora-gaming/presse-papiers.sh"; }
     Mod+E hotkey-overlay-title="Explorateur de fichiers" { spawn "dolphin"; }
     Mod+I hotkey-overlay-title="Paramètres" { spawn "systemsettings"; }
     Mod+Return hotkey-overlay-title="Terminal" { spawn "konsole"; }
     Mod+G hotkey-overlay-title="Steam" { spawn "steam"; }
-    Mod+L hotkey-overlay-title="Verrouiller l'écran" { spawn "swaylock" "-f" "-c" "111116"; }
+    Mod+L hotkey-overlay-title="Verrouiller l'écran" { spawn "swaylock" "-f"; }
     Mod+F1 hotkey-overlay-title="Cette aide" { show-hotkey-overlay; }
     Ctrl+Alt+Delete hotkey-overlay-title="Éteindre / redémarrer / déconnexion" { spawn "wlogout" "-p" "layer-shell" "-b" "5" "-T" "330" "-B" "330"; }
     Ctrl+Shift+Escape hotkey-overlay-title="Gestionnaire des tâches" { spawn "plasma-systemmonitor"; }
@@ -128,13 +187,13 @@ binds {
     Mod+Down hotkey-overlay-title="Moitié d'écran (deux fenêtres côte à côte)" { set-column-width "50%"; }
     Mod+R hotkey-overlay-title=null { switch-preset-column-width; }
     Mod+F hotkey-overlay-title="Plein écran" { fullscreen-window; }
-    Mod+V hotkey-overlay-title="Fenêtre flottante / rangée" { toggle-window-floating; }
+    Mod+Shift+V hotkey-overlay-title="Fenêtre flottante / rangée" { toggle-window-floating; }
 
     // ── Se déplacer entre les fenêtres ──────────────────────────────────
-    Mod+Left hotkey-overlay-title="Fenêtre de gauche" { focus-column-left; }
-    Mod+Right hotkey-overlay-title="Fenêtre de droite" { focus-column-right; }
-    Mod+Shift+Left hotkey-overlay-title="Déplacer la fenêtre à gauche" { move-column-left; }
-    Mod+Shift+Right hotkey-overlay-title="Déplacer la fenêtre à droite" { move-column-right; }
+    Mod+Left hotkey-overlay-title="Fenêtre de gauche" { focus-column-or-monitor-left; }
+    Mod+Right hotkey-overlay-title="Fenêtre de droite" { focus-column-or-monitor-right; }
+    Mod+Shift+Left hotkey-overlay-title="Déplacer la fenêtre à gauche (ou vers l'autre écran)" { move-column-left-or-to-monitor-left; }
+    Mod+Shift+Right hotkey-overlay-title="Déplacer la fenêtre à droite (ou vers l'autre écran)" { move-column-right-or-to-monitor-right; }
     Mod+WheelScrollDown cooldown-ms=150 { focus-column-right; }
     Mod+WheelScrollUp cooldown-ms=150 { focus-column-left; }
 
@@ -151,13 +210,20 @@ binds {
 
     // ── Actions rarement utiles, masquées de l'aide ─────────────────────
     Mod+Shift+Up hotkey-overlay-title=null { maximize-column; }
-    Mod+Shift+V hotkey-overlay-title=null { switch-focus-between-floating-and-tiling; }
     Mod+Comma hotkey-overlay-title=null { consume-or-expel-window-left; }
     Mod+Semicolon hotkey-overlay-title=null { consume-or-expel-window-right; }
     Mod+Shift+E hotkey-overlay-title=null { quit; }
 
     // ── Touches multimédia ──────────────────────────────────────────────
-    XF86AudioRaiseVolume allow-when-locked=true { spawn "pactl" "set-sink-volume" "@DEFAULT_SINK@" "+5%"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn "pactl" "set-sink-volume" "@DEFAULT_SINK@" "-5%"; }
-    XF86AudioMute allow-when-locked=true { spawn "pactl" "set-sink-mute" "@DEFAULT_SINK@" "toggle"; }
+    // (avec indicateur de volume à l'écran, comme sous Windows)
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "~/.config/fedora-gaming/volume.sh" "plus"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "~/.config/fedora-gaming/volume.sh" "moins"; }
+    XF86AudioMute allow-when-locked=true { spawn "~/.config/fedora-gaming/volume.sh" "muet"; }
+    XF86AudioMicMute allow-when-locked=true { spawn "~/.config/fedora-gaming/volume.sh" "micro"; }
+    XF86AudioPlay allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioPause allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioNext allow-when-locked=true { spawn "playerctl" "next"; }
+    XF86AudioPrev allow-when-locked=true { spawn "playerctl" "previous"; }
+    XF86AudioStop allow-when-locked=true { spawn "playerctl" "stop"; }
+    XF86Calculator hotkey-overlay-title=null { spawn "kcalc"; }
 }

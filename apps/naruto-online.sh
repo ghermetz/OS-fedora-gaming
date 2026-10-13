@@ -180,9 +180,21 @@ EOF
   echo "Le 1er chargement du jeu est long (le launcher le signale) — c'est normal."
 }
 
+# Souris décalée sous les compositeurs qui ne décorent pas les fenêtres X11
+# (niri + xwayland-satellite, gamescope…) : Wine y suppose un cadre de ~29 px
+# (barre de titre) qui n'existe pas, et chaque clic tombe 29 px trop bas.
+# « Decorated=N » : Wine ne compte plus sur les décorations du gestionnaire de
+# fenêtres. Sans effet visible sous KDE/GNOME. Appliqué une fois par préfixe.
+fix_mouse_offset() {
+  [ -f "$WINEPREFIX/.naruto-nodecor-ok" ] && return 0
+  WINEDEBUG=-all wine reg add 'HKCU\Software\Wine\X11 Driver' /v Decorated /t REG_SZ /d N /f >/dev/null 2>&1 \
+    && touch "$WINEPREFIX/.naruto-nodecor-ok"
+}
+
 do_run() {
   [ -f "$GAME_DIR/$EXE" ] || die "Jeu non installé — lance d'abord : ./naruto-online.sh setup"
   [ -f "$WINEPREFIX/.naruto-deps-ok" ] || die "Préfixe incomplet — relance : ./naruto-online.sh setup"
+  fix_mouse_offset
   cd "$GAME_DIR"
   WINEDEBUG="${WINEDEBUG:--all}" exec wine "$EXE"
 }
