@@ -26,6 +26,26 @@ Un script (ou une ISO) transforme une Fedora KDE fraîchement installée en syst
 
 ---
 
+## Matériel de référence
+
+Basé sur une installation actuelle sur un Ryzen 7 3800X avec RX 7600 XT :
+
+| Composant | Modèle | Performances actuelles |
+|-----------|--------|----------------------|
+| CPU | AMD Ryzen 7 3800X (8c/16t) | 4559 MHz boost, 20% charge |
+| RAM | 32 Go DDR4 | 23 Go disponibles |
+| GPU | AMD RX 7600 XT | 45°C, 21W PPT |
+| Stockage | 929 Go SSD | 854 Go disponibles |
+| Kernel | 7.2.11-200.fc44.x86_64 | Uptime 29 minutes |
+
+![Bureau Niri](https://github.com/ghermetz/OS-fedora-gaming/raw/main/screenshots/niri-bureau.png)
+
+![Performances Niri](https://github.com/ghermetz/OS-fedora-gaming/raw/main/screenshots/niri-sysmonitor.png)
+
+![Bureau Plasma](https://github.com/ghermetz/OS-fedora-gaming/raw/main/screenshots/plasma-sysmonitor.png)
+
+---
+
 ## 1. Ce que vous obtenez
 
 - **Plasma façon Windows 11** : barre des tâches centrée avec menu Démarrer et applis épinglées, thème sombre, Alt+Tab en vignettes, ouverture en un clic.
